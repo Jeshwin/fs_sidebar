@@ -1,0 +1,78 @@
+[
+    {
+        "type": "folder",
+        "name": "components",
+        "contents": [
+            {
+                "type": "folder",
+                "name": "icons",
+                "contents": [
+                    {
+                        "type": "file",
+                        "name": "file.jsx"
+                    },
+                    {
+                        "type": "file",
+                        "name": "folder.jsx"
+                    },
+                    {
+                        "type": "file",
+                        "name": "openFolder.jsx"
+                    }
+                ]
+            },
+            {
+                "type": "folder",
+                "name": "items",
+                "contents": [
+                    {
+                        "type": "file",
+                        "name": "file.jsx"
+                    },
+                    {
+                        "type": "file",
+                        "name": "folder.jsx"
+                    },
+                    {
+                        "type": "file",
+                        "name": "folderProvider.jsx"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "folder",
+        "name": "utils",
+        "contents": [
+            {
+                "type": "file",
+                "name": "example.json"
+            },
+            {
+                "type": "file",
+                "name": "example.txt"
+            },
+            {
+                "type": "file",
+                "name": "parseDirectory.js"
+            }
+        ]
+    },
+    {
+        "type": "file",
+        "name": "App.jsx"
+    },
+    {
+        "type": "file",
+        "name": "example.json"
+    },
+    {
+        "type": "file",
+        "name": "globals.css"
+    },
+    {
+        "type": "file",
+        "name": "main.jsx"
+    }
+]
