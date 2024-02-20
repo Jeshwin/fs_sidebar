@@ -3,17 +3,6 @@
 @tailwind utilities;
 
 :root {
-    --bg-1: #fbfdfe;
-    --bg-2: #f0f2f4;
-    --bg-3: #dfe0e7;
-    --fg-1: #050505;
-    --fg-2: #143d52;
-    --fg-3: #1f5c7a;
-    --toggle: #fb923c;
-    --primary: #9a8ef5;
-    --secondary: #d3cff2;
-    --accent: #78c9d3;
-
     --A: #993D3D;
     --B: #954B39;
     --C: #915934;

@@ -6,7 +6,7 @@ export default function FileIcon({color}) {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-6 h-6 mr-1"
             style={{
                 stroke: color
             }}

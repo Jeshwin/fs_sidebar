@@ -1,4 +1,4 @@
-function calculateHighlighterPositions(fileStructure, openFolders) {
+function calculateHighlighterPositions(fileStructure) {
     const highlighterPositions = [];
 
     const calculateFolderPosition = (folder, level) => {
@@ -12,10 +12,7 @@ function calculateHighlighterPositions(fileStructure, openFolders) {
         const calculateTop = (structure, currentLevel) => {
             structure.forEach((item) => {
                 calcTop += 32; // Height of each file or folder
-                if (
-                    item.type === "dir" &&
-                    openFolders[`${item.name}-${currentLevel}`]
-                ) {
+                if (item.type === "dir" && item.open) {
                     if (item.name === folder.name && currentLevel === level) {
                         position.top = calcTop;
                         return;
@@ -31,10 +28,7 @@ function calculateHighlighterPositions(fileStructure, openFolders) {
         const calculateHeight = (structure, currentLevel) => {
             structure.forEach((item) => {
                 calcHeight += 32;
-                if (
-                    item.type === "dir" &&
-                    openFolders[`${item.name}-${currentLevel}`]
-                ) {
+                if (item.type === "dir" && item.open) {
                     calculateHeight(item.contents, currentLevel + 1);
                 }
             });
@@ -47,7 +41,7 @@ function calculateHighlighterPositions(fileStructure, openFolders) {
 
     const traverseFileStructure = (structure, level) => {
         structure.forEach((item) => {
-            if (item.type === "dir" && openFolders[`${item.name}-${level}`]) {
+            if (item.type === "dir" && item.open) {
                 const folderPosition = calculateFolderPosition(item, level);
                 highlighterPositions.push({...folderPosition, level});
                 traverseFileStructure(item.contents, level + 1);
@@ -64,10 +58,12 @@ const fileStructure = [
     {
         type: "dir",
         name: "components",
+        open: false,
         contents: [
             {
                 type: "dir",
                 name: "icons",
+                open: false,
                 contents: [
                     {
                         type: "file",
@@ -86,6 +82,7 @@ const fileStructure = [
             {
                 type: "dir",
                 name: "items",
+                open: false,
                 contents: [
                     {
                         type: "file",
@@ -106,6 +103,7 @@ const fileStructure = [
     {
         type: "dir",
         name: "utils",
+        open: false,
         contents: [
             {
                 type: "file",
@@ -139,12 +137,5 @@ const fileStructure = [
     },
 ];
 
-const openFolders = {
-    "components-0": true,
-};
-
-const highlighterPositions = calculateHighlighterPositions(
-    fileStructure,
-    openFolders
-);
+const highlighterPositions = calculateHighlighterPositions(fileStructure);
 console.log(highlighterPositions);
