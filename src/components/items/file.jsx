@@ -13,7 +13,7 @@ export default function FileItem({item, parent, level}) {
             style={{
                 marginLeft: `${level * 16 + 4}px`,
             }}
-            className="p-1 cursor-pointer rounded"
+            className="p-1 cursor-pointer rounded-lg hover:bg-slate-700"
             draggable
             onClick={handleClick}
         >
