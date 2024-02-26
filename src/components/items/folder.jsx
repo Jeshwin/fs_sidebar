@@ -1,57 +1,57 @@
+import FileStructureContext from "../context/fileStructureProvider";
 import FolderIcon from "../icons/folder";
 import OpenFolderIcon from "../icons/openFolder";
 import FileItem from "./file";
-import OpenFolderContext from "../context/openFolderProvider";
 import {useContext} from "react";
 
-export default function FolderItem({name, parent, level, contents}) {
-    const {openFolders, toggleFolder} = useContext(OpenFolderContext);
+export default function FolderItem({item, parent, level}) {
+    const {toggleFolder} = useContext(FileStructureContext);
 
-    const isOpen = openFolders[`${name}-${level}`];
+    const folderPath = `${parent}${parent ? "/" : ""}${item.name}`;
 
     const handleToggleFolder = () => {
-        toggleFolder(name, level);
+        toggleFolder(folderPath);
     };
-    const styleColor = `var(--${name[0].toUpperCase()})`;
+    const styleColor = `var(--${item.name[0].toUpperCase()})`;
 
     return (
         <>
             <li
+                id={folderPath}
                 style={{
                     marginLeft: `${level * 16 + 4}px`,
                 }}
-                className="p-1 cursor-pointer rounded"
+                className="p-1 cursor-pointer rounded-lg hover:bg-slate-700"
                 draggable
                 onClick={handleToggleFolder}
             >
                 <span className="w-fit flex items-center">
-                    {isOpen ? (
+                    {item.open ? (
                         <OpenFolderIcon color={styleColor} />
                     ) : (
                         <FolderIcon color={styleColor} />
                     )}
-                    <span className="ml-1 select-none">{`${parent}/${name}`}</span>
+                    {item.name}
                 </span>
             </li>
-            {isOpen &&
-                contents.map((item) => {
-                    if (item.type === "file") {
+            {item.open &&
+                item.contents.map((child_item) => {
+                    if (child_item.type === "file") {
                         return (
                             <FileItem
-                                key={item.name}
-                                name={item.name}
-                                parent={`${parent}/${name}`}
+                                key={child_item.name}
+                                item={child_item}
+                                parent={folderPath}
                                 level={level + 1}
                             />
                         );
                     } else {
                         return (
                             <FolderItem
-                                key={item.name}
-                                name={item.name}
-                                parent={`${parent}/${name}`}
+                                key={child_item.name}
+                                item={child_item}
+                                parent={folderPath}
                                 level={level + 1}
-                                contents={item.contents}
                             />
                         );
                     }

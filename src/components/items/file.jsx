@@ -1,18 +1,25 @@
 import FileIcon from "../icons/file";
 
-export default function FileItem({name, parent, level}) {
-    const styleColor = `var(--${name[0].toUpperCase()})`;
+export default function FileItem({item, parent, level}) {
+    const styleColor = `var(--${item.name[0].toUpperCase()})`;
+    const filePath = `${parent}${parent ? "/" : ""}${item.name}`;
+
+    const handleClick = () => {
+        console.log(`Selected ${filePath}`);
+    };
     return (
         <li
+            id={filePath}
             style={{
                 marginLeft: `${level * 16 + 4}px`,
             }}
-            className="p-1 cursor-pointer rounded"
+            className="p-1 cursor-pointer rounded-lg hover:bg-slate-700"
             draggable
+            onClick={handleClick}
         >
-            <div className="w-fit flex items-center space-x-1">
+            <div className="w-fit flex items-center">
                 <FileIcon color={styleColor} />
-                <span className="select-none">{`${parent}/${name}`}</span>
+                {item.name}
             </div>
         </li>
     );

@@ -1,4 +1,4 @@
-import {useState, useContext, useRef, useEffect} from "react";
+import {useContext, useRef, useState, useEffect} from "react";
 import FileStructureContext from "./context/fileStructureProvider";
 
 import FileItem from "./items/file";
@@ -9,13 +9,18 @@ import Highlighter from "./highlighter";
 export default function FileExplorer() {
     const {fileStructure} = useContext(FileStructureContext);
     const fileStructureRef = useRef(null);
-    const [y, setY] = useState(0);
+    const [cursorY, setCursorY] = useState(0);
 
     useEffect(() => {
         const handleMouseMove = (event) => {
-            const rect = fileStructureRef.current.getBoundingClientRect();
-            const offsetY = event.clientY - rect.top;
-            setY(Math.round((offsetY - 16) / 32));
+            const containerRect =
+                fileStructureRef.current.getBoundingClientRect();
+            const offsetY =
+                event.clientY -
+                containerRect.top +
+                fileStructureRef.current.scrollTop;
+            console.log("Offset Y:", offsetY);
+            setCursorY(offsetY);
         };
 
         const fileStructureContainer = fileStructureRef.current;
@@ -40,15 +45,15 @@ export default function FileExplorer() {
     return (
         <ul
             ref={fileStructureRef}
-            className="relative w-96 h-[640px] overflow-scroll border border-black rounded-lg p-1 flex flex-col"
+            className="relative w-96 h-96 overflow-scroll border border-gray-500 rounded-lg p-1 flex flex-col"
         >
             {fileStructure.map((item) => {
                 if (item.type === "file") {
                     return (
                         <FileItem
                             key={item.name}
-                            name={item.name}
-                            parent={"."}
+                            item={item}
+                            parent={""}
                             level={0}
                         />
                     );
@@ -56,16 +61,15 @@ export default function FileExplorer() {
                     return (
                         <FolderItem
                             key={item.name}
-                            name={item.name}
-                            parent={"."}
+                            item={item}
+                            parent={""}
                             level={0}
-                            contents={item.contents}
                         />
                     );
                 }
             })}
             <GutterRenderer />
-            <Highlighter y={y} />
+            <Highlighter y={cursorY} />
         </ul>
     );
 }

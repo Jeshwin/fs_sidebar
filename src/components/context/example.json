@@ -2,10 +2,12 @@
     {
         "type": "dir",
         "name": "components",
+        "open": false,
         "contents": [
             {
                 "type": "dir",
                 "name": "icons",
+                "open": false,
                 "contents": [
                     {
                         "type": "file",
@@ -24,6 +26,7 @@
             {
                 "type": "dir",
                 "name": "items",
+                "open": false,
                 "contents": [
                     {
                         "type": "file",
@@ -44,6 +47,7 @@
     {
         "type": "dir",
         "name": "utils",
+        "open": false,
         "contents": [
             {
                 "type": "file",
