@@ -8,7 +8,7 @@ export default function FileIcon({color}) {
             stroke="currentColor"
             className="w-6 h-6 mr-1"
             style={{
-                stroke: color
+                stroke: color,
             }}
         >
             <path

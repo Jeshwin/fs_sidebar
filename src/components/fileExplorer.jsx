@@ -1,13 +1,46 @@
-import {useContext, useRef} from "react";
+import {useContext, useRef, useState, useEffect} from "react";
 import FileStructureContext from "./context/fileStructureProvider";
 
 import FileItem from "./items/file";
 import FolderItem from "./items/folder";
 import GutterRenderer from "./gutters";
+import Highlighter from "./highlighter";
 
 export default function FileExplorer() {
     const {fileStructure} = useContext(FileStructureContext);
     const fileStructureRef = useRef(null);
+    const [cursorY, setCursorY] = useState(0);
+
+    useEffect(() => {
+        const handleMouseMove = (event) => {
+            const containerRect =
+                fileStructureRef.current.getBoundingClientRect();
+            const offsetY =
+                event.clientY -
+                containerRect.top +
+                fileStructureRef.current.scrollTop;
+            console.log("Offset Y:", offsetY);
+            setCursorY(offsetY);
+        };
+
+        const fileStructureContainer = fileStructureRef.current;
+
+        if (fileStructureContainer) {
+            fileStructureContainer.addEventListener(
+                "mousemove",
+                handleMouseMove
+            );
+        }
+
+        return () => {
+            if (fileStructureContainer) {
+                fileStructureContainer.removeEventListener(
+                    "mousemove",
+                    handleMouseMove
+                );
+            }
+        };
+    }, []);
 
     return (
         <ul
@@ -36,6 +69,7 @@ export default function FileExplorer() {
                 }
             })}
             <GutterRenderer />
+            <Highlighter y={cursorY} />
         </ul>
     );
 }
