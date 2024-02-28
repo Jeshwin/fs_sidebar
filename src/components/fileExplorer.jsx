@@ -19,7 +19,6 @@ export default function FileExplorer() {
                 event.clientY -
                 containerRect.top +
                 fileStructureRef.current.scrollTop;
-            console.log("Offset Y:", offsetY);
             setCursorY(offsetY);
         };
 
@@ -43,33 +42,35 @@ export default function FileExplorer() {
     }, []);
 
     return (
-        <ul
-            ref={fileStructureRef}
-            className="relative w-96 h-96 overflow-scroll border border-gray-500 rounded-lg p-1 flex flex-col"
-        >
-            {fileStructure.map((item) => {
-                if (item.type === "file") {
-                    return (
-                        <FileItem
-                            key={item.name}
-                            item={item}
-                            parent={""}
-                            level={0}
-                        />
-                    );
-                } else {
-                    return (
-                        <FolderItem
-                            key={item.name}
-                            item={item}
-                            parent={""}
-                            level={0}
-                        />
-                    );
-                }
-            })}
-            <GutterRenderer />
-            <Highlighter y={cursorY} />
-        </ul>
+        <div className="container mx-auto bg-gray-800 text-gray-50 h-screen grid justify-center place-content-center">
+            <ul
+                ref={fileStructureRef}
+                className="relative w-96 h-96 overflow-scroll border border-gray-500 rounded-lg p-1 flex flex-col"
+            >
+                {fileStructure.map((item) => {
+                    if (item.type === "file") {
+                        return (
+                            <FileItem
+                                key={item.name}
+                                item={item}
+                                parent={""}
+                                level={0}
+                            />
+                        );
+                    } else {
+                        return (
+                            <FolderItem
+                                key={item.name}
+                                item={item}
+                                parent={""}
+                                level={0}
+                            />
+                        );
+                    }
+                })}
+                <GutterRenderer />
+                <Highlighter y={cursorY} />
+            </ul>
+        </div>
     );
 }
