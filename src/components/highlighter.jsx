@@ -3,6 +3,7 @@ import FileStructureContext from "./context/fileStructureProvider";
 
 export default function Highlighter({y}) {
     const {fileStructure} = useContext(FileStructureContext);
+    const [highlighterPositions, setHighlighterPositions] = useState([]);
     const [highlighterPosition, setHighlighterPosition] = useState(null);
 
     useEffect(() => {
@@ -16,7 +17,7 @@ export default function Highlighter({y}) {
                     const fullName = parentName
                         ? `${parentName}/${folderName}`
                         : folderName;
-                    const left = parentLevel * 16 + 4;
+                    const left = parentLevel * 16 + 8;
                     let height = 32; // height of folder
                     if (item.open) {
                         height += traverse(
@@ -42,10 +43,13 @@ export default function Highlighter({y}) {
             height: totalHeight + 8,
             fullName: "",
         });
+        setHighlighterPositions(positions.sort((a, b) => a.top - b.top));
+    }, [fileStructure]);
 
+    useEffect(() => {
         // Find the most specific position that encapsulates the cursor's y coordinate
         let mostSpecificPosition = null;
-        positions.forEach((position) => {
+        highlighterPositions.forEach((position) => {
             if (
                 y >= position.top &&
                 y <= position.top + position.height &&
@@ -58,7 +62,7 @@ export default function Highlighter({y}) {
         });
 
         setHighlighterPosition(mostSpecificPosition);
-    }, [fileStructure, y]);
+    }, [highlighterPositions, y]);
 
     return (
         <>
@@ -71,7 +75,7 @@ export default function Highlighter({y}) {
                         top: `${highlighterPosition.top}px`,
                         left: `${highlighterPosition.left}px`,
                         height: `${highlighterPosition.height}px`,
-                        width: `calc(100% - ${highlighterPosition.left}px)`,
+                        width: `calc(100% - 4px - ${highlighterPosition.left}px)`,
                         pointerEvents: "none",
                     }}
                     className="border border-indigo-500 transition-all duration-150"
