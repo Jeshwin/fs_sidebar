@@ -1,6 +1,6 @@
 import {createPortal} from "react-dom";
 
-const Modal = ({handleReplace, handleRename, handleSkip}) => {
+export default function Modal({handleReplace, handleRename, handleSkip}) {
     return createPortal(
         <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="absolute inset-0 bg-gray-900 opacity-50"></div>
@@ -11,19 +11,19 @@ const Modal = ({handleReplace, handleRename, handleSkip}) => {
                 <p className="text-center mb-4">What would you like to do?</p>
                 <div className="flex space-x-4">
                     <button
-                        className="text-red-400 bg-red-500 bg-opacity-30 py-2 px-4 rounded-md"
+                        className="text-red-400 bg-red-500 bg-opacity-30 hover:bg-opacity-15 py-2 px-4 rounded-md"
                         onClick={handleReplace}
                     >
                         Replace
                     </button>
                     <button
-                        className="text-green-400 bg-green-500 bg-opacity-30 py-2 px-4 rounded-md"
+                        className="text-green-400 bg-green-500 bg-opacity-30 hover:bg-opacity-15 py-2 px-4 rounded-md"
                         onClick={handleRename}
                     >
                         Rename
                     </button>
                     <button
-                        className="text-gray-400 bg-gray-500 bg-opacity-30 py-2 px-4 rounded-md"
+                        className="text-gray-400 bg-gray-500 bg-opacity-30 hover:bg-opacity-15 py-2 px-4 rounded-md"
                         onClick={handleSkip}
                     >
                         Skip
@@ -33,6 +33,4 @@ const Modal = ({handleReplace, handleRename, handleSkip}) => {
         </div>,
         document.getElementById("modal-root") // Ensure this div exists in your HTML
     );
-};
-
-export default Modal;
+}
