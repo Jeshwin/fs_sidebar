@@ -3,12 +3,15 @@ import FolderIcon from "../icons/folder";
 import OpenFolderIcon from "../icons/openFolder";
 import FileItem from "./file";
 import Modal from "../modal";
-import {useState, useContext} from "react";
+import {useState, useContext, Fragment} from "react";
+import VerticalDots from "../icons/vdots";
 
 export default function FolderItem({item, parent, level}) {
     const {toggleFolder, addFile, addFolder, deleteFile, deleteFolder} =
         useContext(FileStructureContext);
     const [showModal, setShowModal] = useState(false);
+    const [showDots, setShowDots] = useState(false);
+    const [showTooltip, setShowTooltip] = useState(false);
 
     const handleReplace = () => {
         // Handle replace action
@@ -93,6 +96,19 @@ export default function FolderItem({item, parent, level}) {
         }
     };
 
+    const handleMouseEnter = () => {
+        setShowDots(true);
+    };
+
+    const handleMouseLeave = () => {
+        setShowDots(false);
+    };
+
+    const toggleTooltip = (e) => {
+        e.stopPropagation();
+        setShowTooltip(!showTooltip);
+    };
+
     return (
         <>
             {/* Render the modal if showModal state is true */}
@@ -108,21 +124,36 @@ export default function FolderItem({item, parent, level}) {
                 style={{
                     marginLeft: `${level * 16 + 4}px`,
                 }}
-                className="p-1 cursor-pointer rounded-lg hover:bg-slate-700"
+                className="flex items-center p-1 cursor-pointer rounded-lg hover:bg-slate-700"
                 draggable
                 onDragStart={handleDragStart}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={handleToggleFolder}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
             >
-                <span className="w-fit flex items-center">
-                    {item.open ? (
-                        <OpenFolderIcon color={styleColor} />
-                    ) : (
-                        <FolderIcon color={styleColor} />
-                    )}
-                    {item.name}
-                </span>
+                {item.open ? (
+                    <OpenFolderIcon color={styleColor} />
+                ) : (
+                    <FolderIcon color={styleColor} />
+                )}
+                <span className="flex-1">{item.name}</span>
+                {showDots && (
+                    <Fragment>
+                        <button
+                            className="rounded hover:bg-slate-800"
+                            onClick={toggleTooltip}
+                        >
+                            <VerticalDots />
+                        </button>
+                        {showTooltip && (
+                            <div className="absolute p-1 rounded shadow bg-sky-900">
+                                Yo yo yo!
+                            </div>
+                        )}
+                    </Fragment>
+                )}
             </li>
             {item.open &&
                 item.contents.map((child_item) => {

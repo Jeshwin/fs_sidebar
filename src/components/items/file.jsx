@@ -3,11 +3,15 @@ import {useState, useContext} from "react";
 import FileStructureContext from "../context/fileStructureProvider";
 import FileIcon from "../icons/file";
 import Modal from "../modal";
+import VerticalDots from "../icons/vdots";
+import ToolTipMenu from "../tooltipMenu";
 
 export default function FileItem({item, parent, level}) {
     const {addFile, addFolder, deleteFile, deleteFolder} =
         useContext(FileStructureContext);
     const [showModal, setShowModal] = useState(false);
+    const [showDots, setShowDots] = useState(false);
+    const [showTooltip, setShowTooltip] = useState(false);
 
     const handleReplace = () => {
         // Handle replace action
@@ -90,9 +94,21 @@ export default function FileItem({item, parent, level}) {
         }
     };
 
+    const handleMouseEnter = () => {
+        setShowDots(true);
+    };
+
+    const handleMouseLeave = () => {
+        setShowDots(false);
+    };
+
+    const toggleTooltip = (e) => {
+        e.stopPropagation();
+        setShowTooltip(!showTooltip);
+    };
+
     return (
         <>
-            {/* Render the modal if showModal state is true */}
             {showModal && (
                 <Modal
                     handleReplace={handleReplace}
@@ -105,17 +121,26 @@ export default function FileItem({item, parent, level}) {
                 style={{
                     marginLeft: `${level * 16 + 4}px`,
                 }}
-                className="p-1 cursor-pointer rounded-lg hover:bg-slate-700"
+                className="flex items-center p-1 cursor-pointer rounded-lg hover:bg-slate-700"
                 draggable
                 onDragStart={handleDragStart}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={handleClick}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
             >
-                <div className="w-fit flex items-center">
-                    <FileIcon color={styleColor} />
-                    {item.name}
-                </div>
+                <FileIcon color={styleColor} />
+                <span className="flex-1">{item.name}</span>
+                {showDots && (
+                    <button
+                        className="rounded hover:bg-slate-800"
+                        onClick={toggleTooltip}
+                    >
+                        <VerticalDots />
+                    </button>
+                )}
+                {showTooltip && <ToolTipMenu path={filePath} />}
             </li>
         </>
     );

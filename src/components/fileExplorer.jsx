@@ -42,10 +42,10 @@ export default function FileExplorer() {
     }, []);
 
     return (
-        <div className="container mx-auto bg-gray-800 text-gray-50 h-screen grid justify-center place-content-center">
+        <div className="mx-auto bg-gray-800 text-gray-50 h-screen grid justify-center place-content-center">
             <ul
                 ref={fileStructureRef}
-                className="relative w-96 h-96 overflow-scroll border border-gray-500 rounded-lg p-1 flex flex-col"
+                className="relative w-96 overflow-scroll p-1 flex flex-col"
             >
                 {fileStructure.map((item) => {
                     if (item.type === "file") {
@@ -71,6 +71,7 @@ export default function FileExplorer() {
                 <GutterRenderer />
                 <Highlighter y={cursorY} />
             </ul>
+            <div id="tooltip-root"></div>
         </div>
     );
 }
