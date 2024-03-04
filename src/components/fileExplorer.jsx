@@ -44,6 +44,7 @@ export default function FileExplorer() {
     return (
         <div className="mx-auto bg-gray-800 text-gray-50 h-screen grid justify-center place-content-center">
             <ul
+                id="file-explorer"
                 ref={fileStructureRef}
                 className="relative w-96 overflow-scroll p-1 flex flex-col"
             >
@@ -71,7 +72,6 @@ export default function FileExplorer() {
                 <GutterRenderer />
                 <Highlighter y={cursorY} />
             </ul>
-            <div id="tooltip-root"></div>
         </div>
     );
 }
