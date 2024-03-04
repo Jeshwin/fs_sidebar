@@ -1,17 +1,19 @@
-import {useState, useContext} from "react";
+import {useState, useContext, useRef} from "react";
 
 import FileStructureContext from "../context/fileStructureProvider";
-import FileIcon from "../icons/file";
+import TooltipPositionContext from "../context/tooltipPositionContext";
 import Modal from "../modal";
-import VerticalDots from "../icons/vdots";
-import ToolTipMenu from "../tooltipMenu";
+import {DocumentIcon, EllipsisVerticalIcon} from "@heroicons/react/24/outline";
 
 export default function FileItem({item, parent, level}) {
     const {addFile, addFolder, deleteFile, deleteFolder} =
         useContext(FileStructureContext);
+    const {setTooltipPosition, tooltipPath, setTooltipPath} = useContext(
+        TooltipPositionContext
+    );
     const [showModal, setShowModal] = useState(false);
     const [showDots, setShowDots] = useState(false);
-    const [showTooltip, setShowTooltip] = useState(false);
+    const VertDotsRef = useRef(null);
 
     const handleReplace = () => {
         // Handle replace action
@@ -104,7 +106,10 @@ export default function FileItem({item, parent, level}) {
 
     const toggleTooltip = (e) => {
         e.stopPropagation();
-        setShowTooltip(!showTooltip);
+        // Function to handle button click and capture mouse position
+        const rect = VertDotsRef.current.getBoundingClientRect();
+        setTooltipPosition({x: rect.x + rect.width + 16, y: rect.y});
+        setTooltipPath(tooltipPath == filePath ? "" : filePath);
     };
 
     return (
@@ -121,7 +126,7 @@ export default function FileItem({item, parent, level}) {
                 style={{
                     marginLeft: `${level * 16 + 4}px`,
                 }}
-                className="flex items-center p-1 cursor-pointer rounded-lg hover:bg-slate-700"
+                className="flex items-center p-1 cursor-pointer rounded-lg hover:bg-gray-700"
                 draggable
                 onDragStart={handleDragStart}
                 onDragOver={handleDragOver}
@@ -130,17 +135,22 @@ export default function FileItem({item, parent, level}) {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                <FileIcon color={styleColor} />
+                <DocumentIcon
+                    style={{
+                        color: styleColor,
+                    }}
+                    className="w-6 h-6 mr-1"
+                />
                 <span className="flex-1">{item.name}</span>
                 {showDots && (
                     <button
-                        className="rounded hover:bg-slate-800"
+                        ref={VertDotsRef}
+                        className="rounded hover:bg-gray-800"
                         onClick={toggleTooltip}
                     >
-                        <VerticalDots />
+                        <EllipsisVerticalIcon className="w-6 h-6" />
                     </button>
                 )}
-                {showTooltip && <ToolTipMenu path={filePath} />}
             </li>
         </>
     );

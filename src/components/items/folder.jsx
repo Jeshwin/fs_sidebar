@@ -1,17 +1,23 @@
 import FileStructureContext from "../context/fileStructureProvider";
-import FolderIcon from "../icons/folder";
-import OpenFolderIcon from "../icons/openFolder";
 import FileItem from "./file";
 import Modal from "../modal";
-import {useState, useContext, Fragment} from "react";
-import VerticalDots from "../icons/vdots";
+import {useState, useContext, useRef} from "react";
+import {
+    FolderIcon,
+    FolderOpenIcon,
+    EllipsisVerticalIcon,
+} from "@heroicons/react/24/outline";
+import TooltipPositionContext from "../context/tooltipPositionContext";
 
 export default function FolderItem({item, parent, level}) {
     const {toggleFolder, addFile, addFolder, deleteFile, deleteFolder} =
         useContext(FileStructureContext);
+    const {setTooltipPosition, tooltipPath, setTooltipPath} = useContext(
+        TooltipPositionContext
+    );
     const [showModal, setShowModal] = useState(false);
     const [showDots, setShowDots] = useState(false);
-    const [showTooltip, setShowTooltip] = useState(false);
+    const VertDotsRef = useRef(null);
 
     const handleReplace = () => {
         // Handle replace action
@@ -106,7 +112,10 @@ export default function FolderItem({item, parent, level}) {
 
     const toggleTooltip = (e) => {
         e.stopPropagation();
-        setShowTooltip(!showTooltip);
+        // Function to handle button click and capture mouse position
+        const rect = VertDotsRef.current.getBoundingClientRect();
+        setTooltipPosition({x: rect.x + rect.width + 16, y: rect.y});
+        setTooltipPath(tooltipPath == folderPath ? "" : folderPath);
     };
 
     return (
@@ -124,7 +133,7 @@ export default function FolderItem({item, parent, level}) {
                 style={{
                     marginLeft: `${level * 16 + 4}px`,
                 }}
-                className="flex items-center p-1 cursor-pointer rounded-lg hover:bg-slate-700"
+                className="flex items-center p-1 cursor-pointer rounded-lg hover:bg-gray-700"
                 draggable
                 onDragStart={handleDragStart}
                 onDragOver={handleDragOver}
@@ -134,25 +143,29 @@ export default function FolderItem({item, parent, level}) {
                 onMouseLeave={handleMouseLeave}
             >
                 {item.open ? (
-                    <OpenFolderIcon color={styleColor} />
+                    <FolderOpenIcon
+                        style={{
+                            color: styleColor,
+                        }}
+                        className="w-6 h-6 mr-1"
+                    />
                 ) : (
-                    <FolderIcon color={styleColor} />
+                    <FolderIcon
+                        style={{
+                            color: styleColor,
+                        }}
+                        className="w-6 h-6 mr-1"
+                    />
                 )}
                 <span className="flex-1">{item.name}</span>
                 {showDots && (
-                    <Fragment>
-                        <button
-                            className="rounded hover:bg-slate-800"
-                            onClick={toggleTooltip}
-                        >
-                            <VerticalDots />
-                        </button>
-                        {showTooltip && (
-                            <div className="absolute p-1 rounded shadow bg-sky-900">
-                                Yo yo yo!
-                            </div>
-                        )}
-                    </Fragment>
+                    <button
+                        ref={VertDotsRef}
+                        className="rounded hover:bg-gray-800"
+                        onClick={toggleTooltip}
+                    >
+                        <EllipsisVerticalIcon className="w-6 h-6" />
+                    </button>
                 )}
             </li>
             {item.open &&
