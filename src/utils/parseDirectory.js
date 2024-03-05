@@ -11,7 +11,8 @@ function parseFileStructure(input) {
             // Case 1: Line is a folder
             if (line.charAt(line.length - 1) == "/") {
                 workingDirectory.push({
-                    type: "folder",
+                    type: "dir",
+                    open: false,
                     name: line.slice(0, -1),
                     contents: [],
                 });
@@ -23,10 +24,7 @@ function parseFileStructure(input) {
                     .split("/")
                     .forEach((directory) => {
                         for (let item of newDirectory) {
-                            if (
-                                item.type == "folder" &&
-                                item.name == directory
-                            ) {
+                            if (item.type == "dir" && item.name == directory) {
                                 newDirectory = item.contents;
                                 break;
                             }
@@ -42,22 +40,12 @@ function parseFileStructure(input) {
                 });
             }
 
-            // Sort contents after adding them
-            if (workingDirectory === result) {
-                // Sort the result array
-                result.sort((a, b) => {
-                    if (a.type === "folder" && b.type === "file") return -1;
-                    if (a.type === "file" && b.type === "folder") return 1;
-                    return a.name.localeCompare(b.name);
-                });
-            } else {
-                // Sort the contents of the folder
-                workingDirectory.sort((a, b) => {
-                    if (a.type === "folder" && b.type === "file") return -1;
-                    if (a.type === "file" && b.type === "folder") return 1;
-                    return a.name.localeCompare(b.name);
-                });
-            }
+            // Sort the contents of the folder
+            workingDirectory.sort((a, b) => {
+                if (a.type === "dir" && b.type === "file") return -1;
+                if (a.type === "file" && b.type === "dir") return 1;
+                return a.name.localeCompare(b.name);
+            });
         });
 
     return result;

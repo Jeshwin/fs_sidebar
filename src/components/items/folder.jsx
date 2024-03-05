@@ -37,8 +37,13 @@ export default function FolderItem({item, parent, level}) {
         setShowModal(false);
     };
 
-    const styleColor = `var(--${item.name[0].toUpperCase()})`;
+    const styleColor = item.name[0].match(/[a-z]/i) // Check if first character is a letter
+        ? `var(--${item.name[0].toUpperCase()})`
+        : "#9D9D9D";
     const folderPath = `${parent}${parent ? "/" : ""}${item.name}`;
+    const hiddenFolderTextColor = !folderPath[0].match(/[a-z]/i) // Check if first character is a letter
+        ? "#cccccc"
+        : "auto";
 
     const handleToggleFolder = () => {
         console.log(`Selected ${folderPath}`);
@@ -157,7 +162,14 @@ export default function FolderItem({item, parent, level}) {
                         className="w-6 h-6 mr-1"
                     />
                 )}
-                <span className="flex-1">{item.name}</span>
+                <span
+                    style={{
+                        color: hiddenFolderTextColor,
+                    }}
+                    className="flex-1"
+                >
+                    {item.name}
+                </span>
                 {showDots && (
                     <button
                         ref={VertDotsRef}
