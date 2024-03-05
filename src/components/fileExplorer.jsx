@@ -42,7 +42,7 @@ export default function FileExplorer() {
     }, []);
 
     return (
-        <div className="mx-auto bg-gray-800 text-gray-50 h-screen grid justify-center place-content-center">
+        <div className="mx-auto py-8 bg-gray-800 text-gray-50 h-screen grid justify-center place-content-center">
             <ul
                 id="file-explorer"
                 ref={fileStructureRef}
