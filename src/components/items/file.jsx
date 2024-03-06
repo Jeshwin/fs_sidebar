@@ -113,7 +113,7 @@ export default function FileItem({item, parent, level}) {
         e.stopPropagation();
         // Function to handle button click and capture mouse position
         const rect = VertDotsRef.current.getBoundingClientRect();
-        setTooltipPosition({x: rect.x + rect.width + 16, y: rect.y});
+        setTooltipPosition({x: rect.x + rect.width + 20, y: rect.y - 8});
         setTooltipPath(tooltipPath == filePath ? "" : filePath);
     };
 
