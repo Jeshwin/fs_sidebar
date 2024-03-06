@@ -3,8 +3,11 @@ import {createPortal} from "react-dom";
 export default function Modal({handleReplace, handleRename, handleSkip}) {
     return createPortal(
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="absolute inset-0 bg-gray-900 opacity-50"></div>
-            <div className="relative bg-gray-800 text-gray-50 shadow-lg rounded-lg p-6">
+            <div
+                onClick={handleSkip}
+                className="absolute inset-0 bg-gray-900 opacity-75"
+            ></div>
+            <div className="relative bg-gray-700 border border-gray-500 rounded-lg text-gray-50 shadow-lg p-6">
                 <p className="text-xl font-bold mb-2 text-center">
                     Duplicate Item Found!
                 </p>
