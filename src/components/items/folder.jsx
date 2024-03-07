@@ -7,12 +7,12 @@ import {
     FolderOpenIcon,
     EllipsisVerticalIcon,
 } from "@heroicons/react/24/outline";
-import TooltipPositionContext from "../context/tooltipPositionContext";
+import TooltipPositionContext from "../context/tooltipProvider";
 
 export default function FolderItem({item, parent, level}) {
     const {toggleFolder, addFile, addFolder, deleteFile, deleteFolder} =
         useContext(FileStructureContext);
-    const {setTooltipPosition, tooltipPath, setTooltipPath} = useContext(
+    const {setTooltipPosition, tooltipInfo, setTooltipInfo} = useContext(
         TooltipPositionContext
     );
     const [showModal, setShowModal] = useState(false);
@@ -117,10 +117,24 @@ export default function FolderItem({item, parent, level}) {
 
     const toggleTooltip = (e) => {
         e.stopPropagation();
-        // Function to handle button click and capture mouse position
+        // Function to handle button click
         const rect = VertDotsRef.current.getBoundingClientRect();
-        setTooltipPosition({x: rect.x + rect.width + 20, y: rect.y - 8});
-        setTooltipPath(tooltipPath == folderPath ? "" : folderPath);
+        setTooltipPosition({x: rect.x + 44, y: rect.y - 8});
+        setTooltipInfo({
+            type: "dir",
+            path: tooltipInfo.path == folderPath ? "" : folderPath,
+        });
+    };
+
+    const handleContextMenu = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        // Function to handle button click and capture mouse position
+        setTooltipPosition({x: e.clientX, y: e.clientY});
+        setTooltipInfo({
+            type: "dir",
+            path: tooltipInfo.path == folderPath ? "" : folderPath,
+        });
     };
 
     return (
@@ -144,6 +158,7 @@ export default function FolderItem({item, parent, level}) {
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={handleToggleFolder}
+                onContextMenu={handleContextMenu}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
