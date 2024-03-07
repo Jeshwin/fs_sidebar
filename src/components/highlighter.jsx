@@ -75,7 +75,9 @@ export default function Highlighter({y}) {
                         top: `${highlighterPosition.top}px`,
                         left: `${highlighterPosition.left}px`,
                         height: `${highlighterPosition.height}px`,
-                        width: `calc(100% - 4px - ${highlighterPosition.left}px)`,
+                        width: `calc(100% - ${
+                            highlighterPosition.left != 0 ? 4 : 0
+                        }px - ${highlighterPosition.left}px)`,
                         pointerEvents: "none",
                     }}
                     className="border border-indigo-500 transition-all duration-150"

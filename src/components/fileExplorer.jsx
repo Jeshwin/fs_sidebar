@@ -5,6 +5,7 @@ import FileItem from "./items/file";
 import FolderItem from "./items/folder";
 import GutterRenderer from "./gutters";
 import Highlighter from "./highlighter";
+import FileExplorerToolbar from "./fileExplorerToolbar";
 
 export default function FileExplorer() {
     const {fileStructure} = useContext(FileStructureContext);
@@ -42,11 +43,17 @@ export default function FileExplorer() {
     }, []);
 
     return (
-        <div className="mx-auto py-8 bg-gray-800 text-gray-50 h-screen grid justify-center place-content-center">
+        <div
+            style={{
+                transform: "translate(-204px",
+            }}
+            className="mx-auto py-8 border border-gray-500 bg-gray-800 text-gray-50 h-screen grid justify-center place-content-center"
+        >
+            <FileExplorerToolbar />
             <ul
                 id="file-explorer"
                 ref={fileStructureRef}
-                className="relative w-96 overflow-scroll p-1 flex flex-col"
+                className="relative w-96 bg-gray-900 rounded-b-lg overflow-scroll p-1 flex flex-col"
             >
                 {fileStructure.map((item) => {
                     if (item.type === "file") {
