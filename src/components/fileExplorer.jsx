@@ -43,42 +43,39 @@ export default function FileExplorer() {
     }, []);
 
     return (
-        <div
-            style={{
-                transform: "translate(-204px",
-            }}
-            className="mx-auto py-8 border border-gray-500 bg-gray-800 text-gray-50 h-screen grid justify-center place-content-center"
-        >
-            <FileExplorerToolbar />
-            <ul
-                id="file-explorer"
-                ref={fileStructureRef}
-                className="relative w-96 bg-gray-900 rounded-b-lg overflow-scroll p-1 flex flex-col"
-            >
-                {fileStructure.map((item) => {
-                    if (item.type === "file") {
-                        return (
-                            <FileItem
-                                key={item.name}
-                                item={item}
-                                parent={""}
-                                level={0}
-                            />
-                        );
-                    } else {
-                        return (
-                            <FolderItem
-                                key={item.name}
-                                item={item}
-                                parent={""}
-                                level={0}
-                            />
-                        );
-                    }
-                })}
-                <GutterRenderer />
-                <Highlighter y={cursorY} />
-            </ul>
+        <div className="w-screen h-screen bg-slate-900 text-gray-50">
+            <div className="absolute top-0 left-0 h-screen bg-gray-800 overflow-y-scroll">
+                <FileExplorerToolbar />
+                <ul
+                    id="file-explorer"
+                    ref={fileStructureRef}
+                    className="relative w-96 p-1 flex flex-col"
+                >
+                    {fileStructure.map((item) => {
+                        if (item.type === "file") {
+                            return (
+                                <FileItem
+                                    key={item.name}
+                                    item={item}
+                                    parent={""}
+                                    level={0}
+                                />
+                            );
+                        } else {
+                            return (
+                                <FolderItem
+                                    key={item.name}
+                                    item={item}
+                                    parent={""}
+                                    level={0}
+                                />
+                            );
+                        }
+                    })}
+                    <GutterRenderer />
+                    <Highlighter y={cursorY} />
+                </ul>
+            </div>
         </div>
     );
 }

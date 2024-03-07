@@ -6,7 +6,7 @@ import {
 
 export default function FileExplorerToolbar() {
     return (
-        <div className="w-full pl-4 p-1 rounded-t-lg bg-gray-950 text-white flex items-center">
+        <div className="sticky z-10 top-0 w-full pl-4 p-1 bg-gray-950 text-white flex items-center">
             <div className="font-semibold flex-1">Explorer</div>
             <div className="font-semibold flex items-center gap-1">
                 <button className="p-1 rounded hover:bg-gray-800">

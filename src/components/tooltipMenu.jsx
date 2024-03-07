@@ -48,14 +48,14 @@ export default function ToolTipMenu() {
             menuLeft: tooltipPosition.x,
             menuTop: Math.min(
                 tooltipPosition.y,
-                window.screen.height - (204 + 94)
+                window.innerHeight - (204 + 8)
             ),
             menuHeight: Math.min(
-                436,
-                window.screen.height - tooltipPosition.y - 96
+                tooltipInfo.type === "file" ? 436 : 492,
+                window.innerHeight - tooltipPosition.y - 8
             ),
         });
-    }, [tooltipPosition]);
+    }, [tooltipInfo, tooltipPosition]);
 
     const menuContents =
         tooltipInfo.type === "file" ? (
