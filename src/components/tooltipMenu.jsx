@@ -1,9 +1,12 @@
-import {useContext, useEffect} from "react";
-import TooltipPositionContext from "./context/tooltipPositionContext";
+import {useContext, useState, useEffect, useRef} from "react";
+import TooltipPositionContext from "./context/tooltipProvider";
 import {
     ArrowDownTrayIcon,
     ArrowTopRightOnSquareIcon,
+    ArrowsUpDownIcon,
     ClipboardIcon,
+    DocumentPlusIcon,
+    FolderPlusIcon,
     LinkIcon,
     MagnifyingGlassIcon,
     MapPinIcon,
@@ -12,27 +15,160 @@ import {
 } from "@heroicons/react/24/outline";
 
 export default function ToolTipMenu() {
-    const {tooltipPosition, tooltipPath, setTooltipPath} = useContext(
+    const {tooltipPosition, tooltipInfo, setTooltipInfo} = useContext(
         TooltipPositionContext
     );
+    const [calculatedDimensions, setCalculatedDimensions] = useState({
+        pointerLeft: 0,
+        pointerTop: 0,
+        menuLeft: 0,
+        menuTop: 0,
+        menuHeight: 0,
+    });
+    const menuRef = useRef(null);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            const inMenu = event.target.closest("#tooltip-menu") === null;
-            if (inMenu && tooltipPath !== "") {
-                setTooltipPath("");
+            if (
+                menuRef.current &&
+                !menuRef.current.contains(event.target) &&
+                tooltipInfo.path !== ""
+            ) {
+                setTooltipInfo({path: "", type: tooltipInfo.type});
             }
         };
         document.addEventListener("click", handleClickOutside);
         return () => {
             document.removeEventListener("click", handleClickOutside);
         };
-    }, [tooltipPath, setTooltipPath]);
+    }, [tooltipInfo, setTooltipInfo]);
+
+    useEffect(() => {
+        setCalculatedDimensions({
+            menuLeft: tooltipPosition.x,
+            menuTop: Math.min(
+                tooltipPosition.y,
+                window.screen.height - (204 + 94)
+            ),
+            menuHeight: Math.min(
+                436,
+                window.screen.height - tooltipPosition.y - 96
+            ),
+        });
+    }, [tooltipPosition]);
+
+    const menuContents =
+        tooltipInfo.type === "file" ? (
+            <>
+                <ul className="my-2">
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <PencilSquareIcon className="w-5 h-5" />
+                        Rename
+                    </li>
+                </ul>
+                <div className="h-px bg-gray-500"></div>
+                <ul className="my-2">
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <ArrowTopRightOnSquareIcon className="w-5 h-5" />
+                        Open
+                    </li>
+                </ul>
+                <div className="h-px bg-gray-500"></div>
+                <ul className="my-2">
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <MagnifyingGlassIcon className="w-5 h-5" />
+                        Search in file
+                    </li>
+                </ul>
+                <div className="h-px bg-gray-500"></div>
+                <ul className="my-2">
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <ClipboardIcon className="w-5 h-5" />
+                        Copy contents
+                    </li>
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <MapPinIcon className="w-5 h-5" />
+                        Copy path
+                    </li>
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <LinkIcon className="w-5 h-5" />
+                        Copy link
+                    </li>
+                </ul>
+                <div className="h-px bg-gray-500"></div>
+                <ul className="mt-2">
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <ArrowDownTrayIcon className="w-5 h-5" />
+                        Download
+                    </li>
+                    <li className="p-2 hover:bg-red-600 hover:bg-opacity-35 flex items-center gap-2 cursor-pointer">
+                        <TrashIcon className="stroke-red-400 w-5 h-5" />
+                        Delete
+                    </li>
+                </ul>
+            </>
+        ) : (
+            <>
+                <ul className="my-2">
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <PencilSquareIcon className="w-5 h-5" />
+                        Rename
+                    </li>
+                </ul>
+                <div className="h-px bg-gray-500"></div>
+                <ul className="my-2">
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <DocumentPlusIcon className="w-5 h-5" />
+                        Add file
+                    </li>
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <FolderPlusIcon className="w-5 h-5" />
+                        Add folder
+                    </li>
+                </ul>
+                <div className="h-px bg-gray-500"></div>
+                <ul className="my-2">
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <MagnifyingGlassIcon className="w-5 h-5" />
+                        Search in folder
+                    </li>
+                </ul>
+                <div className="h-px bg-gray-500"></div>
+                <ul className="my-2">
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <ArrowsUpDownIcon className="w-5 h-5" />
+                        Collapse children
+                    </li>
+                </ul>
+                <div className="h-px bg-gray-500"></div>
+                <ul className="my-2">
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <MapPinIcon className="w-5 h-5" />
+                        Copy path
+                    </li>
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <LinkIcon className="w-5 h-5" />
+                        Copy link
+                    </li>
+                </ul>
+                <div className="h-px bg-gray-500"></div>
+                <ul className="mt-2">
+                    <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
+                        <ArrowDownTrayIcon className="w-5 h-5" />
+                        Download
+                    </li>
+                    <li className="p-2 hover:bg-red-600 hover:bg-opacity-35 flex items-center gap-2 cursor-pointer">
+                        <TrashIcon className="stroke-red-400 w-5 h-5" />
+                        Delete
+                    </li>
+                </ul>
+            </>
+        );
 
     return (
-        tooltipPath && (
+        tooltipInfo.path !== "" && (
             <>
-                <svg
+                {/* <svg
                     width="12"
                     height="24"
                     viewBox="0 0 12 24"
@@ -40,8 +176,8 @@ export default function ToolTipMenu() {
                     xmlns="http://www.w3.org/2000/svg"
                     className="absolute z-20 w-3 h-6 fill-gray-700 stroke-gray-500"
                     style={{
-                        left: `${tooltipPosition.x - 11}px`,
-                        top: `${tooltipPosition.y + 8}px`,
+                        left: `${calculatedDimensions.pointerLeft}px`,
+                        top: `${calculatedDimensions.pointerTop}px`,
                     }}
                 >
                     <g clipPath="url(#clip0_1_2)">
@@ -64,74 +200,22 @@ export default function ToolTipMenu() {
                             />
                         </clipPath>
                     </defs>
-                </svg>
+                </svg> */}
                 <div
                     id="tooltip-menu"
+                    ref={menuRef}
                     className="absolute min-w-48 overflow-y-scroll z-10 border border-gray-500 rounded-md bg-gray-700 text-white shadow-lg"
                     style={{
-                        left: `${tooltipPosition.x}px`,
-                        top: `${Math.min(
-                            tooltipPosition.y,
-                            window.screen.height - 204 - 94
-                        )}px`,
-                        height: `${Math.min(
-                            436,
-                            window.screen.height - 64 - tooltipPosition.y - 32
-                        )}px`,
+                        left: `${calculatedDimensions.menuLeft}px`,
+                        top: `${calculatedDimensions.menuTop}px`,
+                        height: `${calculatedDimensions.menuHeight}px`,
                         minHeight: "204px",
                     }}
                 >
-                    {/* Tooltip Pointer */}
-
                     <div className="sticky z-10 top-0 p-2 bg-gray-700 text-sm font-light text-gray-200 border-b border-gray-500">
-                        {tooltipPath}
+                        {tooltipInfo.path}
                     </div>
-                    <ul className="my-2">
-                        <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
-                            <PencilSquareIcon className="w-5 h-5" />
-                            Rename
-                        </li>
-                    </ul>
-                    <div className="h-px bg-gray-500"></div>
-                    <ul className="my-2">
-                        <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
-                            <ArrowTopRightOnSquareIcon className="w-5 h-5" />
-                            Open
-                        </li>
-                    </ul>
-                    <div className="h-px bg-gray-500"></div>
-                    <ul className="my-2">
-                        <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
-                            <MagnifyingGlassIcon className="w-5 h-5" />
-                            Search in file
-                        </li>
-                    </ul>
-                    <div className="h-px bg-gray-500"></div>
-                    <ul className="my-2">
-                        <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
-                            <ClipboardIcon className="w-5 h-5" />
-                            Copy contents
-                        </li>
-                        <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
-                            <MapPinIcon className="w-5 h-5" />
-                            Copy path
-                        </li>
-                        <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
-                            <LinkIcon className="w-5 h-5" />
-                            Copy link
-                        </li>
-                    </ul>
-                    <div className="h-px bg-gray-500"></div>
-                    <ul className="my-2">
-                        <li className="p-2 hover:bg-gray-600 flex items-center gap-2 cursor-pointer">
-                            <ArrowDownTrayIcon className="w-5 h-5" />
-                            Download
-                        </li>
-                        <li className="p-2 hover:bg-red-600 hover:bg-opacity-35 flex items-center gap-2 cursor-pointer">
-                            <TrashIcon className="stroke-red-400 w-5 h-5" />
-                            Delete
-                        </li>
-                    </ul>
+                    {menuContents}
                 </div>
             </>
         )

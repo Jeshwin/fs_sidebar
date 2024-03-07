@@ -5,15 +5,18 @@ const TooltipPositionContext = createContext();
 // Create fileStructure provider
 export const TooltipPositionProvider = ({children}) => {
     const [tooltipPosition, setTooltipPosition] = useState({x: 0, y: 0});
-    const [tooltipPath, setTooltipPath] = useState("");
+    const [tooltipInfo, setTooltipInfo] = useState({
+        type: "",
+        path: "",
+    });
 
     return (
         <TooltipPositionContext.Provider
             value={{
                 tooltipPosition,
                 setTooltipPosition,
-                tooltipPath,
-                setTooltipPath,
+                tooltipInfo,
+                setTooltipInfo,
             }}
         >
             {children}
