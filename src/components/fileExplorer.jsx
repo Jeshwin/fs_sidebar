@@ -5,7 +5,7 @@ import FileItem from "./items/file";
 import FolderItem from "./items/folder";
 import GutterRenderer from "./gutters";
 import Highlighter from "./highlighter";
-import FileExplorerToolbar from "./fileExplorerToolbar";
+import FileExplorerToolbar from "./toolbar/fileExplorerToolbar";
 import NewFileItem from "./items/newfile";
 import NewFolderItem from "./items/newfolder";
 import CurrentFileContext from "./context/currentFileProvider";
@@ -80,7 +80,7 @@ export default function FileExplorer() {
                     {slashCount == 0 && (
                         <>
                             <NewFileItem />
-                            <NewFolderItem />
+                            {/* <NewFolderItem /> */}
                         </>
                     )}
                     <GutterRenderer />
