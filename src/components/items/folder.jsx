@@ -215,7 +215,7 @@ export default function FolderItem({item, parent, level}) {
                 folderPath && (
                 <>
                     <NewFileItem />
-                    <NewFolderItem />
+                    {/* <NewFolderItem /> */}
                 </>
             )}
         </>

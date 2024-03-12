@@ -14,7 +14,7 @@ export default function NewFileItem() {
                 marginLeft: `${16 * slashCount + 4}px`,
             }}
             className="h-8 flex items-center p-1 cursor-pointer rounded-lg bg-gray-700
-            border border-transparent focus-within:border-indigo-500"
+            border border-transparent focus-within:ring-1 focus-within:ring-indigo-500"
         >
             <DocumentPlusIcon className="w-6 h-6" />
             <input
