@@ -21,9 +21,6 @@ export default function FileItem({item, parent, level}) {
         ? `var(--${item.name[0].toUpperCase()})`
         : "#9D9D9D";
     const filePath = `${parent}${parent ? "/" : ""}${item.name}`;
-    const hiddenFileTextColor = !filePath[0].match(/[a-z]/i) // Check if first character is a letter
-        ? "#cccccc"
-        : "auto";
 
     const handleClick = () => {
         console.log(`Selected ${filePath}`);
@@ -164,14 +161,7 @@ export default function FileItem({item, parent, level}) {
                     }}
                     className="w-6 h-6 mr-1"
                 />
-                <span
-                    style={{
-                        color: hiddenFileTextColor,
-                    }}
-                    className="flex-1"
-                >
-                    {item.name}
-                </span>
+                <span className="flex-1">{item.name}</span>
                 {showDots && (
                     <button
                         ref={VertDotsRef}

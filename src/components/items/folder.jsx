@@ -8,6 +8,9 @@ import {
     EllipsisVerticalIcon,
 } from "@heroicons/react/24/outline";
 import TooltipPositionContext from "../context/tooltipProvider";
+import CurrentFileContext from "../context/currentFileProvider";
+import NewFileItem from "./newfile";
+import NewFolderItem from "./newfolder";
 
 export default function FolderItem({item, parent, level}) {
     const {toggleFolder, addFile, addFolder, deleteFile, deleteFolder} =
@@ -15,6 +18,7 @@ export default function FolderItem({item, parent, level}) {
     const {setTooltipPosition, tooltipInfo, setTooltipInfo} = useContext(
         TooltipPositionContext
     );
+    const {currentFile} = useContext(CurrentFileContext);
     const [showModal, setShowModal] = useState(false);
     const [showDots, setShowDots] = useState(false);
     const VertDotsRef = useRef(null);
@@ -41,9 +45,6 @@ export default function FolderItem({item, parent, level}) {
         ? `var(--${item.name[0].toUpperCase()})`
         : "#9D9D9D";
     const folderPath = `${parent}${parent ? "/" : ""}${item.name}`;
-    const hiddenFolderTextColor = !folderPath[0].match(/[a-z]/i) // Check if first character is a letter
-        ? "#cccccc"
-        : "auto";
 
     const handleToggleFolder = () => {
         console.log(`Selected ${folderPath}`);
@@ -177,14 +178,7 @@ export default function FolderItem({item, parent, level}) {
                         className="w-6 h-6 mr-1"
                     />
                 )}
-                <span
-                    style={{
-                        color: hiddenFolderTextColor,
-                    }}
-                    className="flex-1"
-                >
-                    {item.name}
-                </span>
+                <span className="flex-1">{item.name}</span>
                 {showDots && (
                     <button
                         ref={VertDotsRef}
@@ -217,6 +211,13 @@ export default function FolderItem({item, parent, level}) {
                         );
                     }
                 })}
+            {currentFile.substring(0, currentFile.lastIndexOf("/")) ===
+                folderPath && (
+                <>
+                    <NewFileItem />
+                    <NewFolderItem />
+                </>
+            )}
         </>
     );
 }

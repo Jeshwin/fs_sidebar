@@ -6,11 +6,16 @@ import FolderItem from "./items/folder";
 import GutterRenderer from "./gutters";
 import Highlighter from "./highlighter";
 import FileExplorerToolbar from "./fileExplorerToolbar";
+import NewFileItem from "./items/newfile";
+import NewFolderItem from "./items/newfolder";
+import CurrentFileContext from "./context/currentFileProvider";
 
 export default function FileExplorer() {
     const {fileStructure} = useContext(FileStructureContext);
-    const fileStructureRef = useRef(null);
+    const {currentFile} = useContext(CurrentFileContext);
     const [cursorY, setCursorY] = useState(0);
+    const fileStructureRef = useRef(null);
+    const slashCount = currentFile.split("/").length - 1;
 
     useEffect(() => {
         const handleMouseMove = (event) => {
@@ -72,6 +77,12 @@ export default function FileExplorer() {
                             );
                         }
                     })}
+                    {slashCount == 0 && (
+                        <>
+                            <NewFileItem />
+                            <NewFolderItem />
+                        </>
+                    )}
                     <GutterRenderer />
                     <Highlighter y={cursorY} />
                 </ul>
