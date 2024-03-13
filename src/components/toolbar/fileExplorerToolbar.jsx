@@ -4,15 +4,36 @@ import {
     FolderPlusIcon,
     MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import FileExplorerSearchbar from "./fileExplorerSearchbar";
+import NewElementFolderContext from "../context/newElementFolderProvider";
 
 export default function FileExplorerToolbar() {
+    const {
+        showNewElementInput,
+        setShowNewElementInput,
+        fileOrFolder,
+        setFileOrFolder,
+    } = useContext(NewElementFolderContext);
     const [showSearchbar, setShowSearchbar] = useState(false);
 
     const toggleSearchbar = () => {
         setShowSearchbar(!showSearchbar);
     };
+
+    const showNewInput = (newFileOrFolder) => {
+        if (!showNewElementInput) {
+            setShowNewElementInput(true);
+            setFileOrFolder(newFileOrFolder);
+        } else {
+            if (newFileOrFolder !== fileOrFolder) {
+                setFileOrFolder(newFileOrFolder);
+            } else {
+                setShowNewElementInput(false);
+            }
+        }
+    };
+
     return (
         <div className="sticky z-10 top-0 w-full p-1 grid grid-cols-1 bg-gray-950 text-white">
             <div className="flex items-center">
@@ -24,10 +45,16 @@ export default function FileExplorerToolbar() {
                     >
                         <MagnifyingGlassIcon className="w-6 h-6" />
                     </button>
-                    <button className="hover:bg-gray-800">
+                    <button
+                        onClick={() => showNewInput("file")}
+                        className="hover:bg-gray-800"
+                    >
                         <DocumentPlusIcon className="w-6 h-6" />
                     </button>
-                    <button className="hover:bg-gray-800">
+                    <button
+                        onClick={() => showNewInput("dir")}
+                        className="hover:bg-gray-800"
+                    >
                         <FolderPlusIcon className="w-6 h-6" />
                     </button>
                     <button className="hover:bg-gray-800">
