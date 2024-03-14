@@ -168,39 +168,6 @@ export default function ToolTipMenu() {
     return (
         tooltipInfo.path !== "" && (
             <>
-                {/* <svg
-                    width="12"
-                    height="24"
-                    viewBox="0 0 12 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="absolute z-20 w-3 h-6 fill-gray-700 stroke-gray-500"
-                    style={{
-                        left: `${calculatedDimensions.pointerLeft}px`,
-                        top: `${calculatedDimensions.pointerTop}px`,
-                    }}
-                >
-                    <g clipPath="url(#clip0_1_2)">
-                        <rect
-                            width="12"
-                            height="24"
-                            fill="transparent"
-                            strokeWidth={0}
-                        />
-                        <path d="M11.5 0V24" className="stroke-gray-700" />
-                        <path d="M11.5 0C11.5 6 0.5 6 0.5 12C0.5 18 11.5 18 11.5 24" />
-                    </g>
-                    <defs>
-                        <clipPath id="clip0_1_2">
-                            <rect
-                                width="12"
-                                height="24"
-                                fill="transparent"
-                                strokeWidth={0}
-                            />
-                        </clipPath>
-                    </defs>
-                </svg> */}
                 <div
                     id="tooltip-menu"
                     ref={menuRef}

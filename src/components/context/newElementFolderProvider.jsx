@@ -11,13 +11,11 @@ export const NewElementFolderProvider = ({children}) => {
     const {currentFile} = useContext(CurrentFileContext);
 
     useEffect(() => {
-        if (newElementFolder === "") {
-            setNewElementFolder(
-                currentFile.split("/").length == 1
-                    ? ""
-                    : currentFile.split("/").slice(0, -1).join("/")
-            );
-        }
+        setNewElementFolder(
+            currentFile.split("/").length == 1
+                ? ""
+                : currentFile.split("/").slice(0, -1).join("/") + "/"
+        );
     }, [newElementFolder, currentFile]);
 
     return (

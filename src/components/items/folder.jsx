@@ -1,7 +1,7 @@
 import FileStructureContext from "../context/fileStructureProvider";
 import FileItem from "./file";
 import Modal from "../modal";
-import {useState, useContext, useRef} from "react";
+import {useState, useContext, useRef, useEffect} from "react";
 import {
     FolderIcon,
     FolderOpenIcon,
@@ -12,12 +12,20 @@ import NewItem from "./newelement";
 import NewElementFolderContext from "../context/newElementFolderProvider";
 
 export default function FolderItem({item, parent, level}) {
-    const {toggleFolder, addFile, addFolder, deleteFile, deleteFolder} =
-        useContext(FileStructureContext);
+    const {
+        toggleFolder,
+        setFolderOpen,
+        addFile,
+        addFolder,
+        deleteFile,
+        deleteFolder,
+    } = useContext(FileStructureContext);
     const {setTooltipPosition, tooltipInfo, setTooltipInfo} = useContext(
         TooltipPositionContext
     );
-    const {newElementFolder} = useContext(NewElementFolderContext);
+    const {newElementFolder, showNewElementInput} = useContext(
+        NewElementFolderContext
+    );
     const [showModal, setShowModal] = useState(false);
     const [showDots, setShowDots] = useState(false);
     const VertDotsRef = useRef(null);
@@ -46,7 +54,6 @@ export default function FolderItem({item, parent, level}) {
     const folderPath = `${parent}${parent ? "/" : ""}${item.name}`;
 
     const handleToggleFolder = () => {
-        console.log(`Selected ${folderPath}`);
         toggleFolder(folderPath);
     };
 
@@ -136,6 +143,12 @@ export default function FolderItem({item, parent, level}) {
             path: tooltipInfo.path == folderPath ? "" : folderPath,
         });
     };
+
+    useEffect(() => {
+        if (newElementFolder.includes(folderPath) && showNewElementInput) {
+            setFolderOpen(folderPath, true);
+        }
+    }, [newElementFolder, showNewElementInput]);
 
     return (
         <>

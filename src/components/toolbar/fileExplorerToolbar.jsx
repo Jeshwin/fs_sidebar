@@ -21,7 +21,8 @@ export default function FileExplorerToolbar() {
         setShowSearchbar(!showSearchbar);
     };
 
-    const showNewInput = (newFileOrFolder) => {
+    const showNewInput = (event, newFileOrFolder) => {
+        event.stopPropagation();
         if (!showNewElementInput) {
             setShowNewElementInput(true);
             setFileOrFolder(newFileOrFolder);
@@ -46,13 +47,13 @@ export default function FileExplorerToolbar() {
                         <MagnifyingGlassIcon className="w-6 h-6" />
                     </button>
                     <button
-                        onClick={() => showNewInput("file")}
+                        onClick={(e) => showNewInput(e, "file")}
                         className="hover:bg-gray-800"
                     >
                         <DocumentPlusIcon className="w-6 h-6" />
                     </button>
                     <button
-                        onClick={() => showNewInput("dir")}
+                        onClick={(e) => showNewInput(e, "dir")}
                         className="hover:bg-gray-800"
                     >
                         <FolderPlusIcon className="w-6 h-6" />

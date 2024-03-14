@@ -47,6 +47,42 @@ export const FileStructureProvider = ({children}) => {
         findAndToggleFolder(folders, fileStructure);
     };
 
+    const setFolderOpen = (folderName, isOpen) => {
+        // Split folderName into individual folder names
+        const folders = folderName.split("/");
+
+        // Recursive function to find and toggle the folder
+        const findAndToggleFolder = (folders, currentStructure) => {
+            const folderName = folders[0];
+
+            // Find the folder in the current structure
+            const folderIndex = currentStructure.findIndex(
+                (item) => item.name === folderName && item.type === "dir"
+            );
+
+            // Do nothing if folder doesn't exist
+            if (folderIndex === -1) {
+                return;
+            }
+
+            // Set the "open" attribute of all the folders we've encountered
+            currentStructure[folderIndex].open = isOpen;
+
+            // If there are subfolders and the folder is open, continue searching
+            if (folders.length > 1) {
+                findAndToggleFolder(
+                    folders.slice(1),
+                    currentStructure[folderIndex].contents
+                );
+            }
+
+            // Update the state with the modified structure
+            setFileStructure([...fileStructure]);
+        };
+
+        findAndToggleFolder(folders, fileStructure);
+    };
+
     // Function to add a new file at the specified path
     const addFile = (path, newFile) => {
         const folders = path.split("/");
@@ -278,6 +314,7 @@ export const FileStructureProvider = ({children}) => {
             value={{
                 fileStructure,
                 toggleFolder,
+                setFolderOpen,
                 addFile,
                 deleteFile,
                 addFolder,

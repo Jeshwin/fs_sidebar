@@ -1,6 +1,5 @@
 import {useContext, useRef, useState, useEffect} from "react";
 import FileStructureContext from "./context/fileStructureProvider";
-
 import FileItem from "./items/file";
 import FolderItem from "./items/folder";
 import GutterRenderer from "./gutters";
