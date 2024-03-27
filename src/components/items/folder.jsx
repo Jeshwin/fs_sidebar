@@ -9,23 +9,15 @@ import {
 } from "@heroicons/react/24/outline";
 import TooltipPositionContext from "../context/tooltipProvider";
 import NewItem from "./newelement";
-import NewElementFolderContext from "../context/newElementFolderProvider";
+import NewElementContext from "../context/newElementProvider";
 
 export default function FolderItem({item, parent, level}) {
-    const {
-        toggleFolder,
-        setFolderOpen,
-        addFile,
-        addFolder,
-        deleteFile,
-        deleteFolder,
-    } = useContext(FileStructureContext);
+    const {toggleFolder, setFolderOpen, addItem, deleteFile, deleteFolder} =
+        useContext(FileStructureContext);
     const {setTooltipPosition, tooltipInfo, setTooltipInfo} = useContext(
         TooltipPositionContext
     );
-    const {newElementFolder, showNewElementInput} = useContext(
-        NewElementFolderContext
-    );
+    const {currentFile, showNewElementInput} = useContext(NewElementContext);
     const [showModal, setShowModal] = useState(false);
     const [showDots, setShowDots] = useState(false);
     const VertDotsRef = useRef(null);
@@ -81,36 +73,32 @@ export default function FolderItem({item, parent, level}) {
         const targetPath = folderPath;
         const sourcePath = droppedData.path;
 
+        // Implement logic to handle dropping onto files and folders
         // Can't add folder into itself!
         if (sourcePath === targetPath) {
             return;
         }
 
-        if (droppedData.type === "file") {
-            // Get last name in path to get filename
-            const sourcePathArray = sourcePath.split("/");
-            const fileName = sourcePathArray[sourcePathArray.length - 1];
-            console.log(`Adding file ${fileName} onto ${targetPath}`);
-            if (addFile(targetPath, {name: fileName})) {
-                deleteFile(sourcePath);
-            } else {
-                setShowModal(true);
-            }
-        } else if (droppedData.type === "dir") {
-            const sourcePathArray = sourcePath.split("/");
-            const folderName = sourcePathArray[sourcePathArray.length - 1];
-            console.log(`Adding folder ${folderName} onto ${targetPath}`);
-            if (
-                addFolder(targetPath, {
-                    name: folderName,
-                    contents: droppedData.contents,
-                    open: droppedData.open,
-                })
-            ) {
-                deleteFolder(sourcePath);
-            } else {
-                setShowModal(true);
-            }
+        // Get last name in path to get filename
+        const sourcePathArray = sourcePath.split("/");
+        const itemName = sourcePathArray[sourcePathArray.length - 1];
+        const newElement = {
+            type: droppedData.type,
+            name: itemName,
+        };
+        if (droppedData.type === "dir") {
+            newElement.contents = droppedData.contents;
+            newElement.open = droppedData.open;
+        }
+        console.log(
+            `Adding ${newElement.type} ${newElement.name} onto ${targetPath}`
+        );
+        if (addItem(targetPath, newElement)) {
+            droppedData.type === "file"
+                ? deleteFile(sourcePath)
+                : deleteFolder(sourcePath);
+        } else {
+            setShowModal(true);
         }
     };
 
@@ -145,14 +133,24 @@ export default function FolderItem({item, parent, level}) {
     };
 
     useEffect(() => {
-        if (newElementFolder.includes(folderPath) && showNewElementInput) {
-            setFolderOpen(folderPath, true);
+        if (
+            !item.open &&
+            currentFile.includes(folderPath) &&
+            showNewElementInput
+        ) {
+            setFolderOpen(folderPath);
         }
-    }, [newElementFolder, showNewElementInput]);
+    }, [
+        currentFile,
+        folderPath,
+        item.open,
+        setFolderOpen,
+        showNewElementInput,
+    ]);
 
     return (
         <>
-            {/* Render the modal if showModal state is true */}
+            {/** Render the modal if showModal state is true */}
             {showModal && (
                 <Modal
                     handleReplace={handleReplace}
@@ -175,6 +173,7 @@ export default function FolderItem({item, parent, level}) {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
+                {/** Chnage folder icon if open */}
                 {item.open ? (
                     <FolderOpenIcon
                         style={{
@@ -191,6 +190,7 @@ export default function FolderItem({item, parent, level}) {
                     />
                 )}
                 <span className="flex-1">{item.name}</span>
+                {/** Show menu dots button only on hover */}
                 {showDots && (
                     <button
                         ref={VertDotsRef}
@@ -201,6 +201,7 @@ export default function FolderItem({item, parent, level}) {
                     </button>
                 )}
             </li>
+            {/** Show folder contents if open */}
             {item.open &&
                 item.contents.map((child_item) => {
                     if (child_item.type === "file") {
@@ -223,14 +224,9 @@ export default function FolderItem({item, parent, level}) {
                         );
                     }
                 })}
-            {newElementFolder.substring(
-                0,
-                newElementFolder.lastIndexOf("/")
-            ) === folderPath && (
-                <>
-                    <NewItem />
-                </>
-            )}
+            {/** Show new item input if current file is within this folder */}
+            {currentFile.substring(0, currentFile.lastIndexOf("/")) ===
+                folderPath && <NewItem />}
         </>
     );
 }

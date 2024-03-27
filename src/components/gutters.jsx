@@ -1,8 +1,10 @@
 import {useContext, useEffect, useState} from "react";
 import FileStructureContext from "./context/fileStructureProvider";
+import NewElementContext from "./context/newElementProvider";
 
 export default function GutterRenderer() {
     const {fileStructure, toggleFolder} = useContext(FileStructureContext);
+    const {currentFile, showNewElementInput} = useContext(NewElementContext);
     const [gutterMarks, setGutterMarks] = useState([]);
 
     const addGutter = (newGutter) => {
@@ -46,6 +48,9 @@ export default function GutterRenderer() {
             };
             calculateHeight(folderContents, level + 1);
             position.height = calcHeight;
+            if (showNewElementInput && currentFile.includes(folderName)) {
+                position.height += 32;
+            }
             return position;
         };
 
@@ -84,7 +89,7 @@ export default function GutterRenderer() {
 
         setGutterMarks([]);
         traverseStructure(fileStructure, "", 0);
-    }, [fileStructure, toggleFolder]);
+    }, [fileStructure, toggleFolder, currentFile, showNewElementInput]);
 
     return <>{gutterMarks}</>;
 }

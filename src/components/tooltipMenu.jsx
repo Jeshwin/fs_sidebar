@@ -13,11 +13,13 @@ import {
     PencilSquareIcon,
     TrashIcon,
 } from "@heroicons/react/24/outline";
+import FileStructureContext from "./context/fileStructureProvider";
 
 export default function ToolTipMenu() {
     const {tooltipPosition, tooltipInfo, setTooltipInfo} = useContext(
         TooltipPositionContext
     );
+    const {deleteFile, deleteFolder} = useContext(FileStructureContext);
     const [calculatedDimensions, setCalculatedDimensions] = useState({
         pointerLeft: 0,
         pointerTop: 0,
@@ -56,6 +58,15 @@ export default function ToolTipMenu() {
             ),
         });
     }, [tooltipInfo, tooltipPosition]);
+
+    const deleteItem = () => {
+        if (tooltipInfo.type === "file") {
+            deleteFile(tooltipInfo.path);
+        } else {
+            deleteFolder(tooltipInfo.path);
+        }
+        setTooltipInfo({path: "", type: tooltipInfo.type});
+    };
 
     const menuContents =
         tooltipInfo.type === "file" ? (
@@ -101,9 +112,14 @@ export default function ToolTipMenu() {
                         <ArrowDownTrayIcon className="w-5 h-5" />
                         Download
                     </li>
-                    <li className="p-2 hover:bg-red-600 hover:bg-opacity-35 flex items-center gap-2 cursor-pointer">
-                        <TrashIcon className="stroke-red-400 w-5 h-5" />
-                        Delete
+                    <li className="hover:bg-red-600 hover:bg-opacity-35">
+                        <button
+                            className="p-2 w-full flex items-center gap-2"
+                            onClick={deleteItem}
+                        >
+                            <TrashIcon className="stroke-red-400 w-5 h-5" />
+                            Delete
+                        </button>
                     </li>
                 </ul>
             </>
@@ -157,9 +173,14 @@ export default function ToolTipMenu() {
                         <ArrowDownTrayIcon className="w-5 h-5" />
                         Download
                     </li>
-                    <li className="p-2 hover:bg-red-600 hover:bg-opacity-35 flex items-center gap-2 cursor-pointer">
-                        <TrashIcon className="stroke-red-400 w-5 h-5" />
-                        Delete
+                    <li className="hover:bg-red-600 hover:bg-opacity-35">
+                        <button
+                            className="p-2 w-full flex items-center gap-2"
+                            onClick={deleteItem}
+                        >
+                            <TrashIcon className="stroke-red-400 w-5 h-5" />
+                            Delete
+                        </button>
                     </li>
                 </ul>
             </>

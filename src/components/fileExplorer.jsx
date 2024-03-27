@@ -6,15 +6,19 @@ import GutterRenderer from "./gutters";
 import Highlighter from "./highlighter";
 import FileExplorerToolbar from "./toolbar/fileExplorerToolbar";
 import NewItem from "./items/newelement";
-import NewElementFolderContext from "./context/newElementFolderProvider";
+import NewElementContext from "./context/newElementProvider";
 
 export default function FileExplorer() {
     const {fileStructure} = useContext(FileStructureContext);
-    const {newElementFolder} = useContext(NewElementFolderContext);
+    const {currentFile} = useContext(NewElementContext);
     const [cursorY, setCursorY] = useState(0);
+    // Take into account scroll position when getting cursor vertical position
     const fileStructureRef = useRef(null);
-    const slashCount = newElementFolder.split("/").length - 1;
+    // Number of parent folders for selected file
+    // Used to determine whether to render new item form here
+    const slashCount = currentFile.split("/").length - 1;
 
+    // Render highlighter based on cursor's vertical position
     useEffect(() => {
         const handleMouseMove = (event) => {
             const containerRect =
@@ -48,6 +52,7 @@ export default function FileExplorer() {
     return (
         <div className="w-screen h-screen bg-slate-900 text-gray-50">
             <div className="absolute top-0 left-0 h-screen bg-gray-800 overflow-y-scroll">
+                {/** Toolbar contains searchbar and buttons to add new file or folder */}
                 <FileExplorerToolbar />
                 <ul
                     id="file-explorer"
@@ -75,12 +80,11 @@ export default function FileExplorer() {
                             );
                         }
                     })}
-                    {slashCount == 0 && (
-                        <>
-                            <NewItem />
-                        </>
-                    )}
+                    {/** If selected file is in root directory, render form to add new file/folder */}
+                    {slashCount == 0 && <NewItem />}
+                    {/** Render lines from open folders, also act as collapse buttons */}
                     <GutterRenderer />
+                    {/** Render highlighter based on cursor's vertical position */}
                     <Highlighter y={cursorY} />
                 </ul>
             </div>

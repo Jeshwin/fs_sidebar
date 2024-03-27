@@ -1,7 +1,7 @@
 import {useContext, useEffect, useRef, useState} from "react";
 import FileStructureContext from "../context/fileStructureProvider";
 import {XMarkIcon} from "@heroicons/react/24/outline";
-import CurrentFileContext from "../context/currentFileProvider";
+import NewElementContext from "../context/newElementProvider";
 
 function fuzzySearchFilename(searchTerm, structure, prefix = "") {
     const regexPattern = searchTerm.split("").join(".*");
@@ -58,7 +58,7 @@ function fuzzySearchFilename(searchTerm, structure, prefix = "") {
 
 export default function FileExplorerSearchbar() {
     const {fileStructure} = useContext(FileStructureContext);
-    const {setCurrentFile} = useContext(CurrentFileContext);
+    const {setCurrentFile} = useContext(NewElementContext);
 
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);

@@ -6,7 +6,7 @@ import {
 } from "@heroicons/react/24/outline";
 import {useContext, useState} from "react";
 import FileExplorerSearchbar from "./fileExplorerSearchbar";
-import NewElementFolderContext from "../context/newElementFolderProvider";
+import NewElementContext from "../context/newElementProvider";
 
 export default function FileExplorerToolbar() {
     const {
@@ -14,7 +14,7 @@ export default function FileExplorerToolbar() {
         setShowNewElementInput,
         fileOrFolder,
         setFileOrFolder,
-    } = useContext(NewElementFolderContext);
+    } = useContext(NewElementContext);
     const [showSearchbar, setShowSearchbar] = useState(false);
 
     const toggleSearchbar = () => {

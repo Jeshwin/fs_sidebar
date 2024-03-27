@@ -47,7 +47,7 @@ export const FileStructureProvider = ({children}) => {
         findAndToggleFolder(folders, fileStructure);
     };
 
-    const setFolderOpen = (folderName, isOpen) => {
+    const setFolderOpen = (folderName) => {
         // Split folderName into individual folder names
         const folders = folderName.split("/");
 
@@ -66,7 +66,7 @@ export const FileStructureProvider = ({children}) => {
             }
 
             // Set the "open" attribute of all the folders we've encountered
-            currentStructure[folderIndex].open = isOpen;
+            currentStructure[folderIndex].open = true;
 
             // If there are subfolders and the folder is open, continue searching
             if (folders.length > 1) {
@@ -83,30 +83,27 @@ export const FileStructureProvider = ({children}) => {
         findAndToggleFolder(folders, fileStructure);
     };
 
-    // Function to add a new file at the specified path
-    const addFile = (path, newFile) => {
+    const addItem = (path, newItem) => {
         const folders = path.split("/");
         let currentStructure = fileStructure;
 
         // Edge case: path is empty => root directory
         if (!path) {
             // Check if the file already exists in the current structure
-            const fileExists = currentStructure.some(
-                (item) => item.type === "file" && item.name === newFile.name
+            const itemExists = currentStructure.some(
+                (item) =>
+                    item.type === newItem.type && item.name === newItem.name
             );
 
-            if (fileExists) {
+            if (itemExists) {
                 console.log(
-                    `File "${newFile.name}" already exists in the destination folder.`
+                    `${newItem.type} "${newItem.name}" already exists in the destination folder.`
                 );
                 // You can show a modal or perform other actions here
                 return false;
             }
             // Add the new file to the current structure
-            currentStructure.push({
-                type: "file",
-                name: newFile.name,
-            });
+            currentStructure.push(newItem);
             currentStructure.sort((a, b) => {
                 if (a.type === "dir" && b.type === "file") return -1;
                 if (a.type === "file" && b.type === "dir") return 1;
@@ -131,103 +128,19 @@ export const FileStructureProvider = ({children}) => {
         }
 
         // Check if the file already exists in the current structure
-        const fileExists = currentStructure.some(
-            (item) => item.type === "file" && item.name === newFile.name
+        const itemExists = currentStructure.some(
+            (item) => item.type === newItem.type && item.name === newItem.name
         );
 
-        if (fileExists) {
+        if (itemExists) {
             console.log(
-                `File "${newFile.name}" already exists in the destination folder.`
+                `${newItem.type} "${newItem.name}" already exists in the destination folder.`
             );
             // You can show a modal or perform other actions here
             return false;
         }
-
         // Add the new file to the current structure
-        currentStructure.push({
-            type: "file",
-            name: newFile.name,
-        });
-        currentStructure.sort((a, b) => {
-            if (a.type === "dir" && b.type === "file") return -1;
-            if (a.type === "file" && b.type === "dir") return 1;
-            return a.name.localeCompare(b.name);
-        });
-
-        // Update the state with the modified structure
-        setFileStructure([...fileStructure]);
-        return true;
-    };
-
-    // Function to add a new folder at the specified path
-    const addFolder = (path, newFolder) => {
-        const folders = path.split("/");
-        let currentStructure = fileStructure;
-
-        // Edge case: path is empty => root directory
-        if (!path) {
-            // Check if the folder already exists in the current structure
-            const folderExists = currentStructure.some(
-                (item) => item.type === "dir" && item.name === newFolder.name
-            );
-
-            if (folderExists) {
-                console.log(
-                    `Folder "${newFolder.name}" already exists in the destination folder.`
-                );
-                // You can show a modal or perform other actions here
-                return false;
-            }
-            // Add the new folder to the current structure
-            currentStructure.push({
-                type: "dir",
-                name: newFolder.name,
-                contents: newFolder.contents,
-                open: newFolder.open, // default to closed
-            });
-            currentStructure.sort((a, b) => {
-                if (a.type === "dir" && b.type === "file") return -1;
-                if (a.type === "file" && b.type === "dir") return 1;
-                return a.name.localeCompare(b.name);
-            });
-
-            // Update the state with the modified structure
-            setFileStructure([...fileStructure]);
-            return true;
-        }
-
-        // Traverse the file structure to the specified path
-        for (const folder of folders) {
-            const folderIndex = currentStructure.findIndex(
-                (item) => item.name === folder && item.type === "dir"
-            );
-            if (folderIndex === -1) {
-                // Path does not exist, cannot add folder
-                return false;
-            }
-            currentStructure = currentStructure[folderIndex].contents;
-        }
-
-        // Check if the folder already exists in the current structure
-        const folderExists = currentStructure.some(
-            (item) => item.type === "dir" && item.name === newFolder.name
-        );
-
-        if (folderExists) {
-            console.log(
-                `Folder "${newFolder.name}" already exists in the destination folder.`
-            );
-            // You can show a modal or perform other actions here
-            return false;
-        }
-
-        // Add the new folder to the current structure
-        currentStructure.push({
-            type: "dir",
-            name: newFolder.name,
-            contents: newFolder.contents,
-            open: newFolder.open, // default to closed
-        });
+        currentStructure.push(newItem);
         currentStructure.sort((a, b) => {
             if (a.type === "dir" && b.type === "file") return -1;
             if (a.type === "file" && b.type === "dir") return 1;
@@ -315,9 +228,8 @@ export const FileStructureProvider = ({children}) => {
                 fileStructure,
                 toggleFolder,
                 setFolderOpen,
-                addFile,
+                addItem,
                 deleteFile,
-                addFolder,
                 deleteFolder,
             }}
         >

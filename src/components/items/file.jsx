@@ -4,12 +4,12 @@ import FileStructureContext from "../context/fileStructureProvider";
 import TooltipPositionContext from "../context/tooltipProvider";
 import Modal from "../modal";
 import {DocumentIcon, EllipsisVerticalIcon} from "@heroicons/react/24/outline";
-import CurrentFileContext from "../context/currentFileProvider";
+import NewElementContext from "../context/newElementProvider";
 
 export default function FileItem({item, parent, level}) {
-    const {addFile, addFolder, deleteFile, deleteFolder} =
+    const {addItem, deleteFile, deleteFolder} =
         useContext(FileStructureContext);
-    const {setCurrentFile} = useContext(CurrentFileContext);
+    const {setCurrentFile} = useContext(NewElementContext);
     const {setTooltipPosition, tooltipInfo, setTooltipInfo} = useContext(
         TooltipPositionContext
     );
@@ -55,31 +55,26 @@ export default function FileItem({item, parent, level}) {
             return;
         }
 
-        if (droppedData.type === "file") {
-            // Get last name in path to get filename
-            const sourcePathArray = sourcePath.split("/");
-            const fileName = sourcePathArray[sourcePathArray.length - 1];
-            console.log(`Adding file ${fileName} onto ${targetPath}`);
-            if (addFile(targetPath, {name: fileName})) {
-                deleteFile(sourcePath);
-            } else {
-                setShowModal(true);
-            }
-        } else if (droppedData.type === "dir") {
-            const sourcePathArray = sourcePath.split("/");
-            const folderName = sourcePathArray[sourcePathArray.length - 1];
-            console.log(`Adding folder ${folderName} onto ${targetPath}`);
-            if (
-                addFolder(targetPath, {
-                    name: folderName,
-                    contents: droppedData.contents,
-                    open: droppedData.open,
-                })
-            ) {
-                deleteFolder(sourcePath);
-            } else {
-                setShowModal(true);
-            }
+        // Get last name in path to get filename
+        const sourcePathArray = sourcePath.split("/");
+        const itemName = sourcePathArray[sourcePathArray.length - 1];
+        const newElement = {
+            type: droppedData.type,
+            name: itemName,
+        };
+        if (droppedData.type === "dir") {
+            newElement.contents = [];
+            newElement.open = false;
+        }
+        console.log(
+            `Adding ${newElement.type} ${newElement.name} onto ${targetPath}`
+        );
+        if (addItem(targetPath, newElement)) {
+            droppedData.type === "file"
+                ? deleteFile(sourcePath)
+                : deleteFolder(sourcePath);
+        } else {
+            setShowModal(true);
         }
     };
 

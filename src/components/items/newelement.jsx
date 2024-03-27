@@ -1,17 +1,17 @@
 import {DocumentPlusIcon, FolderPlusIcon} from "@heroicons/react/24/outline";
 import {useContext, useEffect, useRef, useState} from "react";
-import NewElementFolderContext from "../context/newElementFolderProvider";
+import NewElementContext from "../context/newElementProvider";
 import FileStructureContext from "../context/fileStructureProvider";
 import Modal from "../modal";
 
 export default function NewItem() {
     const {
-        newElementFolder,
+        currentFile,
         showNewElementInput,
         setShowNewElementInput,
         fileOrFolder,
-    } = useContext(NewElementFolderContext);
-    const {addFile, addFolder} = useContext(FileStructureContext);
+    } = useContext(NewElementContext);
+    const {addItem} = useContext(FileStructureContext);
     const newElementInputRef = useRef();
     const [newElementName, setNewElementName] = useState("");
     const [showModal, setShowModal] = useState(false);
@@ -33,32 +33,26 @@ export default function NewItem() {
 
     // Count the number of slashes in the current file path
     const slashCount =
-        newElementFolder.split("/").length == 0
+        currentFile.split("/").length == 0
             ? 0
-            : newElementFolder.split("/").length - 1;
+            : currentFile.split("/").length - 1;
 
     const handleKeyPress = (event) => {
         if (event.key === "Enter") {
-            const newElementFolderPath = newElementFolder.substring(
+            const currentFilePath = currentFile.substring(
                 0,
-                newElementFolder.length - 1
+                currentFile.length - 1
             );
-            console.log(
-                `Adding ${newElementName} inside ${newElementFolderPath}`
-            );
-            if (fileOrFolder === "file") {
-                setShowModal(
-                    !addFile(newElementFolderPath, {name: newElementName})
-                );
-            } else {
-                setShowModal(
-                    !addFolder(newElementFolderPath, {
-                        name: newElementName,
-                        contents: [],
-                        open: false,
-                    })
-                );
+            console.log(`Adding ${newElementName} inside ${currentFilePath}`);
+            const newElement = {
+                type: fileOrFolder,
+                name: newElementName,
+            };
+            if (fileOrFolder === "dir") {
+                newElement.contents = [];
+                newElement.open = false;
             }
+            setShowModal(!addItem(currentFilePath, newElement));
             // Hide the input
             setNewElementName("");
             setShowNewElementInput(false);
