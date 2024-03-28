@@ -6,23 +6,29 @@ import FileExplorer from "./components/fileExplorer";
 import ToolTipMenu from "./components/tooltips/tooltipMenu";
 import SelectedFileInfo from "./components/selectedFileInfo";
 import Navbar from "./components/bars/navbar";
+import IDE from "./components/ide/IDE";
 
 export default function App() {
     return (
-        <div className="w-screen h-screen bg-slate-50 dark:bg-slate-900 dark:text-white">
-            <FileStructureProvider>
-                <SidebarControllerContextProvider>
-                    <NewElementProvider>
-                        <TooltipPositionProvider>
+        <FileStructureProvider>
+            <SidebarControllerContextProvider>
+                <NewElementProvider>
+                    <TooltipPositionProvider>
+                        <div className="w-screen h-screen bg-slate-50 dark:bg-slate-900 dark:text-white">
                             <div id="modal-root"></div>
                             <Navbar />
                             <ToolTipMenu />
-                            <FileExplorer />
                             <SelectedFileInfo />
-                        </TooltipPositionProvider>
-                    </NewElementProvider>
-                </SidebarControllerContextProvider>
-            </FileStructureProvider>
-        </div>
+                            <div className="w-full h-[calc(100%-48px)] flex">
+                                <div className="flex-1">
+                                    <FileExplorer />
+                                </div>
+                                <IDE />
+                            </div>
+                        </div>
+                    </TooltipPositionProvider>
+                </NewElementProvider>
+            </SidebarControllerContextProvider>
+        </FileStructureProvider>
     );
 }
