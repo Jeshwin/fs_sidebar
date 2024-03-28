@@ -140,7 +140,7 @@ export default function FileItem({item, parent, level}) {
                 style={{
                     marginLeft: `${level * 16 + 4}px`,
                 }}
-                className="flex items-center p-1 cursor-pointer rounded-lg hover:bg-gray-700"
+                className="flex items-center p-1 cursor-pointer rounded-lg hover:bg-slate-300 hover:dark:bg-slate-700"
                 draggable
                 onDragStart={handleDragStart}
                 onDragOver={handleDragOver}
@@ -160,7 +160,7 @@ export default function FileItem({item, parent, level}) {
                 {showDots && (
                     <button
                         ref={VertDotsRef}
-                        className="rounded hover:bg-gray-800"
+                        className="rounded hover:bg-slate-200 hover:dark:bg-slate-800"
                         onClick={toggleTooltip}
                     >
                         <EllipsisVerticalIcon className="w-6 h-6" />

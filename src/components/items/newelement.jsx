@@ -92,8 +92,8 @@ export default function NewItem() {
                     style={{
                         marginLeft: `${16 * slashCount + 4}px`,
                     }}
-                    className="h-8 flex items-center p-1 cursor-pointer rounded-lg bg-gray-700
-            border border-transparent focus-within:ring-1 focus-within:ring-indigo-500"
+                    className="h-8 flex items-center p-1 cursor-pointer rounded-lg hover:bg-slate-300 hover:dark:bg-slate-700
+                    border border-transparent focus-within:ring-1 focus-within:ring-indigo-500"
                 >
                     {fileOrFolder === "file" ? (
                         <DocumentPlusIcon className="w-6 h-6" />

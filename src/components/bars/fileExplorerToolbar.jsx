@@ -87,7 +87,7 @@ function FileExplorerSearchbar() {
     return (
         <div className="relative p-1">
             <input
-                className="w-full pl-2 p-1 bg-slate-900 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="w-full pl-2 p-1 bg-slate-50 dark:bg-slate-900 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
                 ref={searchInputRef}
                 placeholder="Search"
                 value={searchTerm}
@@ -101,15 +101,15 @@ function FileExplorerSearchbar() {
                     <XMarkIcon className="w-6 h-6" />
                 </button>
             )}
-            <ul className="absolute w-fit max-h-80 m-2 overflow-y-scroll flex flex-col bg-indigo-950 shadow-lg rounded-lg *:flex *:flex-col *:p-2">
+            <ul className="absolute w-fit max-h-80 m-2 overflow-y-scroll z-10 flex flex-col bg-indigo-50 dark:bg-indigo-950 shadow-lg rounded-lg *:flex *:flex-col *:p-2">
                 {searchResults.map((result, index) => {
                     return (
                         <li
                             key={index}
-                            className="hover:bg-indigo-900 first:rounded-t-lg last:rounded-b-lg cursor-pointer"
+                            className="hover:bg-indigo-100 hover:dark:bg-indigo-900 first:rounded-t-lg last:rounded-b-lg cursor-pointer"
                             onClick={() => setCurrentFile(result.fullPath)}
                         >
-                            <p className="text-xs text-indigo-200">
+                            <p className="text-xs text-indigo-800 dark:text-indigo-200">
                                 {result.fullPath.split("").map((char, i) => (
                                     <span
                                         key={i}
@@ -123,7 +123,9 @@ function FileExplorerSearchbar() {
                                     </span>
                                 ))}
                             </p>
-                            <p className="text-indigo-50">{result.name}</p>
+                            <p className="text-indigo-900 dark:text-indigo-50">
+                                {result.name}
+                            </p>
                         </li>
                     );
                 })}
@@ -160,29 +162,29 @@ export default function FileExplorerToolbar() {
     };
 
     return (
-        <div className="top-0 w-full p-1 grid grid-cols-1 bg-slate-800 text-white">
+        <div className="top-0 w-full p-1 grid grid-cols-1 bg-slate-100 dark:bg-slate-800 dark:text-white">
             <div className="flex items-center">
                 <div className="font-semibold flex-1 ml-3">Explorer</div>
                 <div className="font-semibold flex items-center gap-1 *:p-1 *:rounded">
                     <button
                         onClick={toggleSearchbar}
-                        className="hover:bg-gray-800"
+                        className="hover:bg-indigo-200 hover:dark:bg-indigo-800"
                     >
                         <MagnifyingGlassIcon className="w-6 h-6" />
                     </button>
                     <button
                         onClick={(e) => showNewInput(e, "file")}
-                        className="hover:bg-gray-800"
+                        className="hover:bg-indigo-200 hover:dark:bg-indigo-800"
                     >
                         <DocumentPlusIcon className="w-6 h-6" />
                     </button>
                     <button
                         onClick={(e) => showNewInput(e, "dir")}
-                        className="hover:bg-gray-800"
+                        className="hover:bg-indigo-200 hover:dark:bg-indigo-800"
                     >
                         <FolderPlusIcon className="w-6 h-6" />
                     </button>
-                    <button className="hover:bg-gray-800">
+                    <button className="hover:bg-indigo-200 hover:dark:bg-indigo-800">
                         <EllipsisVerticalIcon className="w-6 h-6" />
                     </button>
                 </div>

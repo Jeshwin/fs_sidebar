@@ -9,7 +9,7 @@ import Navbar from "./components/bars/navbar";
 
 export default function App() {
     return (
-        <div className="w-screen h-screen bg-slate-900">
+        <div className="w-screen h-screen bg-slate-50 dark:bg-slate-900 dark:text-white">
             <FileStructureProvider>
                 <SidebarControllerContextProvider>
                     <NewElementProvider>

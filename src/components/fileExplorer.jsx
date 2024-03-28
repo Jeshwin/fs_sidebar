@@ -54,7 +54,7 @@ export default function FileExplorer() {
     if (!showSidebar) return;
 
     return (
-        <div className="w-fit h-full bg-slate-800 text-gray-50 overflow-y-scroll">
+        <div className="w-fit h-full bg-slate-100 dark:bg-slate-800 dark:text-white overflow-y-scroll">
             {/** Toolbar contains searchbar and buttons to add new file or folder */}
             <FileExplorerToolbar />
             {/** The actual file and folder elements */}
