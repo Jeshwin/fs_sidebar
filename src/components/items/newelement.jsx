@@ -41,7 +41,7 @@ export default function NewItem() {
         if (event.key === "Enter") {
             const currentFilePath = currentFile.substring(
                 0,
-                currentFile.length - 1
+                currentFile.lastIndexOf("/")
             );
             console.log(`Adding ${newElementName} inside ${currentFilePath}`);
             const newElement = {

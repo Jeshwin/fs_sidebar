@@ -4,13 +4,15 @@ import FileItem from "./items/file";
 import FolderItem from "./items/folder";
 import GutterRenderer from "./gutters";
 import Highlighter from "./highlighter";
-import FileExplorerToolbar from "./toolbar/fileExplorerToolbar";
+import FileExplorerToolbar from "./bars/fileExplorerToolbar";
 import NewItem from "./items/newelement";
 import NewElementContext from "./context/newElementProvider";
+import SidebarControllerContext from "./context/sidebarControllerProvider";
 
 export default function FileExplorer() {
     const {fileStructure} = useContext(FileStructureContext);
     const {currentFile} = useContext(NewElementContext);
+    const {showSidebar} = useContext(SidebarControllerContext);
     const [cursorY, setCursorY] = useState(0);
     // Take into account scroll position when getting cursor vertical position
     const fileStructureRef = useRef(null);
@@ -49,45 +51,46 @@ export default function FileExplorer() {
         };
     }, []);
 
+    if (!showSidebar) return;
+
     return (
-        <div className="w-screen h-screen bg-slate-900 text-gray-50">
-            <div className="absolute top-0 left-0 h-screen bg-gray-800 overflow-y-scroll">
-                {/** Toolbar contains searchbar and buttons to add new file or folder */}
-                <FileExplorerToolbar />
-                <ul
-                    id="file-explorer"
-                    ref={fileStructureRef}
-                    className="relative w-96 p-1 flex flex-col"
-                >
-                    {fileStructure.map((item) => {
-                        if (item.type === "file") {
-                            return (
-                                <FileItem
-                                    key={item.name}
-                                    item={item}
-                                    parent={""}
-                                    level={0}
-                                />
-                            );
-                        } else {
-                            return (
-                                <FolderItem
-                                    key={item.name}
-                                    item={item}
-                                    parent={""}
-                                    level={0}
-                                />
-                            );
-                        }
-                    })}
-                    {/** If selected file is in root directory, render form to add new file/folder */}
-                    {slashCount == 0 && <NewItem />}
-                    {/** Render lines from open folders, also act as collapse buttons */}
-                    <GutterRenderer />
-                    {/** Render highlighter based on cursor's vertical position */}
-                    <Highlighter y={cursorY} />
-                </ul>
-            </div>
+        <div className="w-fit h-full bg-slate-800 text-gray-50 overflow-y-scroll">
+            {/** Toolbar contains searchbar and buttons to add new file or folder */}
+            <FileExplorerToolbar />
+            {/** The actual file and folder elements */}
+            <ul
+                id="file-explorer"
+                ref={fileStructureRef}
+                className="relative w-96 p-1 flex flex-col"
+            >
+                {fileStructure.map((item) => {
+                    if (item.type === "file") {
+                        return (
+                            <FileItem
+                                key={item.name}
+                                item={item}
+                                parent={""}
+                                level={0}
+                            />
+                        );
+                    } else {
+                        return (
+                            <FolderItem
+                                key={item.name}
+                                item={item}
+                                parent={""}
+                                level={0}
+                            />
+                        );
+                    }
+                })}
+                {/** If selected file is in root directory, render form to add new file/folder */}
+                {slashCount == 0 && <NewItem />}
+                {/** Render lines from open folders, also act as collapse buttons */}
+                <GutterRenderer />
+                {/** Render highlighter based on cursor's vertical position */}
+                <Highlighter y={cursorY} />
+            </ul>
         </div>
     );
 }
