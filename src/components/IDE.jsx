@@ -7,7 +7,7 @@ import Highlighter from "./highlighter";
 import FileExplorerToolbar from "./bars/fileExplorerToolbar";
 import NewItem from "./items/newelement";
 import NewElementContext from "./context/newElementProvider";
-import SidebarControllerContext from "./context/sidebarControllerProvider";
+import SidePanelControllerContext from "./context/sidePanelControllerProvider";
 
 function FileExplorer() {
     const {fileStructure} = useContext(FileStructureContext);
@@ -93,12 +93,13 @@ function FileExplorer() {
 }
 
 export default function IDE() {
-    const {showSidebar} = useContext(SidebarControllerContext);
+    const {showSidePanel} = useContext(SidePanelControllerContext);
     const handlebarRef = useRef(null); // Ref for the handlebar
     const [isDragging, setIsDragging] = useState(false);
-    const [sidebarWidth, setSidebarWidth] = useState(384);
-    const minSidebarWidth = 240;
-    const maxSidebarWidth = 600;
+    const [sidePanelWidth, setSidePanelWidth] = useState(384);
+    const minSidePanelWidth = 240;
+    const maxSidePanelWidth = 600;
+    const toolbarWidth = 48;
 
     // Start dragging
     const startDragging = (e) => {
@@ -110,10 +111,10 @@ export default function IDE() {
         const handleDragging = (e) => {
             if (isDragging) {
                 // Adjust width based on handlebar position
-                setSidebarWidth(
+                setSidePanelWidth(
                     Math.min(
-                        Math.max(e.clientX, minSidebarWidth),
-                        maxSidebarWidth
+                        Math.max(e.clientX - toolbarWidth, minSidePanelWidth),
+                        maxSidePanelWidth
                     )
                 );
             }
@@ -135,8 +136,8 @@ export default function IDE() {
         <div className="w-full h-full flex">
             <div
                 style={{
-                    width: `${showSidebar ? sidebarWidth : 0}px`,
-                    maxWidth: `${maxSidebarWidth}px`,
+                    width: `${showSidePanel ? sidePanelWidth : 0}px`,
+                    maxWidth: `${maxSidePanelWidth}px`,
                 }}
             >
                 <FileExplorer />
