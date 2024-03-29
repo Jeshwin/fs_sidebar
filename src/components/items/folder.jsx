@@ -162,6 +162,7 @@ export default function FolderItem({item, parent, level}) {
                 id={folderPath}
                 style={{
                     marginLeft: `${level * 16 + 4}px`,
+                    width: `calc(100% - ${level * 16 + 4}px)`,
                 }}
                 className="flex items-center p-1 cursor-pointer rounded-lg hover:bg-slate-300 hover:dark:bg-slate-700"
                 draggable
@@ -189,7 +190,9 @@ export default function FolderItem({item, parent, level}) {
                         className="w-6 h-6 mr-1"
                     />
                 )}
-                <span className="flex-1">{item.name}</span>
+                <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
+                    {item.name}
+                </span>
                 {/** Show menu dots button only on hover */}
                 {showDots && (
                     <button

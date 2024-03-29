@@ -2,7 +2,7 @@ import {MoonIcon, SunIcon} from "@heroicons/react/24/outline";
 import {useEffect, useState} from "react";
 
 export default function ThemeToggle() {
-    const [theme, setTheme] = useState("light");
+    const [theme, setTheme] = useState("dark");
 
     useEffect(() => {
         // Directly add the 'dark' class to the body based on theme state

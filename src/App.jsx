@@ -2,11 +2,11 @@ import {FileStructureProvider} from "./components/context/fileStructureProvider"
 import {TooltipPositionProvider} from "./components/context/tooltipProvider";
 import {NewElementProvider} from "./components/context/newElementProvider";
 import {SidebarControllerContextProvider} from "./components/context/sidebarControllerProvider";
-import FileExplorer from "./components/fileExplorer";
 import ToolTipMenu from "./components/tooltips/tooltipMenu";
 import SelectedFileInfo from "./components/selectedFileInfo";
 import Navbar from "./components/bars/navbar";
-import IDE from "./components/ide/IDE";
+import IDE from "./components/IDE";
+import ToolBar from "./components/bars/toolbar";
 
 export default function App() {
     return (
@@ -19,10 +19,8 @@ export default function App() {
                             <Navbar />
                             <ToolTipMenu />
                             <SelectedFileInfo />
-                            <div className="w-full h-[calc(100%-48px)] flex">
-                                <div className="flex-1">
-                                    <FileExplorer />
-                                </div>
+                            <div className="flex h-[calc(100%-48px)]">
+                                <ToolBar />
                                 <IDE />
                             </div>
                         </div>

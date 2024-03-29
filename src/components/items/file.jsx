@@ -139,6 +139,7 @@ export default function FileItem({item, parent, level}) {
                 id={filePath}
                 style={{
                     marginLeft: `${level * 16 + 4}px`,
+                    width: `calc(100% - ${level * 16 + 4}px)`,
                 }}
                 className="flex items-center p-1 cursor-pointer rounded-lg hover:bg-slate-300 hover:dark:bg-slate-700"
                 draggable
@@ -154,18 +155,20 @@ export default function FileItem({item, parent, level}) {
                     style={{
                         color: styleColor,
                     }}
-                    className="w-6 h-6 mr-1"
+                    className="w-6 h-6 mr-1 flex-shrink-0"
                 />
-                <span className="flex-1">{item.name}</span>
-                {showDots && (
-                    <button
-                        ref={VertDotsRef}
-                        className="rounded hover:bg-slate-200 hover:dark:bg-slate-800"
-                        onClick={toggleTooltip}
-                    >
-                        <EllipsisVerticalIcon className="w-6 h-6" />
-                    </button>
-                )}
+                <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
+                    {item.name}
+                </span>
+                <button
+                    ref={VertDotsRef}
+                    className={` ${
+                        !showDots ? "hidden" : ""
+                    } w-6 h-6 rounded hover:bg-slate-200 hover:dark:bg-slate-800`}
+                    onClick={toggleTooltip}
+                >
+                    <EllipsisVerticalIcon className="w-6 h-6" />
+                </button>
             </li>
         </>
     );

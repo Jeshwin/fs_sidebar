@@ -164,7 +164,7 @@ export default function FileExplorerToolbar() {
     return (
         <div className="top-0 w-full p-1 grid grid-cols-1 bg-slate-100 dark:bg-slate-800 dark:text-white">
             <div className="flex items-center">
-                <div className="font-semibold flex-1 ml-3">Explorer</div>
+                <div className="font-semibold flex-1 mx-2">Explorer</div>
                 <div className="font-semibold flex items-center gap-1 *:p-1 *:rounded">
                     <button
                         onClick={toggleSearchbar}
