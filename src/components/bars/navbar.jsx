@@ -1,6 +1,4 @@
 import {
-    ArrowLeftEndOnRectangleIcon,
-    ArrowRightStartOnRectangleIcon,
     ChevronDownIcon,
     InboxIcon,
     MagnifyingGlassIcon,
@@ -8,50 +6,16 @@ import {
     ServerStackIcon,
 } from "@heroicons/react/24/outline";
 import {PlayIcon} from "@heroicons/react/24/solid";
-import {useContext} from "react";
-import SidePanelControllerContext from "../context/sidePanelControllerProvider";
 import {RowTooltip} from "../tooltips/keybindTooltips";
 import ThemeToggle from "../themetoggle";
 
 export default function Navbar() {
-    const {showSidePanel, toggleSidePanel} = useContext(
-        SidePanelControllerContext
-    );
     return (
         <div className="w-screen px-2 py-1 flex items-center space-x-1 bg-slate-50 dark:bg-slate-900 dark:text-white">
-            {showSidePanel ? (
-                <RowTooltip
-                    text="Close Explorer"
-                    keybind={{
-                        windows: ["Control", "`"],
-                        mac: ["Command", "`"],
-                        linux: ["Super", "`"],
-                    }}
-                >
-                    <button
-                        onClick={toggleSidePanel}
-                        className="p-1 rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900"
-                    >
-                        <ArrowLeftEndOnRectangleIcon className="w-6 h-6" />
-                    </button>
-                </RowTooltip>
-            ) : (
-                <RowTooltip
-                    text="Open Explorer"
-                    keybind={{
-                        windows: ["Control", "`"],
-                        mac: ["Command", "`"],
-                        linux: ["Super", "`"],
-                    }}
-                >
-                    <button
-                        onClick={toggleSidePanel}
-                        className="p-1 rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900"
-                    >
-                        <ArrowRightStartOnRectangleIcon className="w-6 h-6" />
-                    </button>
-                </RowTooltip>
-            )}
+            <button className="p-1 flex items-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900">
+                <p className="pl-1 font-mono">CodeNest</p>
+                <ChevronDownIcon className="w-3 h-3 m-0.5" />
+            </button>
             <button className="p-1 flex items-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900">
                 <p className="pl-1">LongFlutesWrapSuprisedBubbles</p>
                 <ChevronDownIcon className="w-3 h-3 m-0.5" />

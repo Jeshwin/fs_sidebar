@@ -3,17 +3,14 @@ const SidePanelControllerContext = createContext();
 
 // Whether or not to show the sidePanel
 export const SidePanelControllerProvider = ({children}) => {
-    const [showSidePanel, setShowSidePanel] = useState(true);
-
-    const toggleSidePanel = () => {
-        setShowSidePanel(!showSidePanel);
-    };
+    const [sidePanelSelection, setSidePanelSelection] =
+        useState("file-explorer");
 
     return (
         <SidePanelControllerContext.Provider
             value={{
-                showSidePanel,
-                toggleSidePanel,
+                sidePanelSelection,
+                setSidePanelSelection,
             }}
         >
             {children}

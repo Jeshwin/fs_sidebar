@@ -93,7 +93,7 @@ function FileExplorer() {
 }
 
 export default function IDE() {
-    const {showSidePanel} = useContext(SidePanelControllerContext);
+    const {sidePanelSelection} = useContext(SidePanelControllerContext);
     const handlebarRef = useRef(null); // Ref for the handlebar
     const [isDragging, setIsDragging] = useState(false);
     const [sidePanelWidth, setSidePanelWidth] = useState(384);
@@ -136,7 +136,11 @@ export default function IDE() {
         <div className="w-full h-full flex">
             <div
                 style={{
-                    width: `${showSidePanel ? sidePanelWidth : 0}px`,
+                    width: `${
+                        sidePanelSelection === "file-explorer"
+                            ? sidePanelWidth
+                            : 0
+                    }px`,
                     maxWidth: `${maxSidePanelWidth}px`,
                 }}
             >

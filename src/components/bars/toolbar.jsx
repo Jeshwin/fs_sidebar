@@ -11,6 +11,8 @@ import {
     PuzzlePieceIcon,
 } from "@heroicons/react/24/outline";
 import {ColumnTooltip} from "../tooltips/keybindTooltips";
+import {useContext} from "react";
+import SidePanelControllerContext from "../context/sidePanelControllerProvider";
 
 // Git icon, because Heroicons is stupid
 function GitIcon({className}) {
@@ -71,6 +73,10 @@ function GitIcon({className}) {
 }
 
 export default function ToolBar() {
+    const {sidePanelSelection, setSidePanelSelection} = useContext(
+        SidePanelControllerContext
+    );
+
     return (
         <div className="h-full px-2 pb-4 bg-slate-50 dark:bg-slate-900 flex flex-col items-center space-y-2">
             <ColumnTooltip
@@ -81,7 +87,16 @@ export default function ToolBar() {
                     linux: ["Option", "1"],
                 }}
             >
-                <button className="p-1 grid place-content-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900">
+                <button
+                    onClick={() =>
+                        setSidePanelSelection(
+                            sidePanelSelection !== "file-explorer"
+                                ? "file-explorer"
+                                : ""
+                        )
+                    }
+                    className="p-1 grid place-content-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900"
+                >
                     <DocumentDuplicateIcon className="w-6 h-6 " />
                 </button>
             </ColumnTooltip>
