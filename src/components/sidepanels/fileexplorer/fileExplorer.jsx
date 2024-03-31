@@ -7,8 +7,10 @@ import FolderItem from "./elements/folder";
 import NewItem from "./elements/newelement";
 import GutterRenderer from "./gutters";
 import Highlighter from "./highlighter";
+import SidePanelControllerContext from "../../context/sidePanelControllerProvider";
 
 export default function FileExplorer() {
+    const {sidePanelSelection} = useContext(SidePanelControllerContext);
     const {fileStructure} = useContext(FileStructureContext);
     const {currentFile} = useContext(NewElementContext);
     const [cursorY, setCursorY] = useState(0);
@@ -50,7 +52,11 @@ export default function FileExplorer() {
     }, []);
 
     return (
-        <div className="h-full bg-slate-100 dark:bg-slate-800 dark:text-white overflow-scroll">
+        <div
+            className={`${
+                sidePanelSelection !== "file-explorer" ? "hidden" : ""
+            } h-full bg-slate-100 dark:bg-slate-800 dark:text-white overflow-scroll`}
+        >
             {/** Toolbar contains searchbar and buttons to add new file or folder */}
             <FileExplorerToolbar />
             {/** The actual file and folder elements */}

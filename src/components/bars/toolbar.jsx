@@ -1,8 +1,8 @@
 import {
     BeakerIcon,
     BookOpenIcon,
-    CodeBracketIcon,
     CommandLineIcon,
+    ComputerDesktopIcon,
     CubeIcon,
     DocumentDuplicateIcon,
     GlobeAltIcon,
@@ -13,6 +13,7 @@ import {
 import {ColumnTooltip} from "../tooltips/keybindTooltips";
 import {useContext} from "react";
 import SidePanelControllerContext from "../context/sidePanelControllerProvider";
+import BottomPanelControllerContext from "../context/bottomPanelControllerProvider";
 
 // Git icon, because Heroicons is stupid
 function GitIcon({className}) {
@@ -75,6 +76,9 @@ function GitIcon({className}) {
 export default function ToolBar() {
     const {sidePanelSelection, setSidePanelSelection} = useContext(
         SidePanelControllerContext
+    );
+    const {bottomPanelSelection, setBottomPanelSelection} = useContext(
+        BottomPanelControllerContext
     );
 
     // Map sidePanelSelection to icons and keybinds
@@ -142,13 +146,44 @@ export default function ToolBar() {
                 linux: ["Option", "1"],
             },
         },
-        "documentation-explorer": {
+        "documentation-panel": {
             icon: <BookOpenIcon className="w-6 h-6" />,
             text: "Documentation",
             keybind: {
                 windows: ["Option", "1"],
                 mac: ["Option", "1"],
                 linux: ["Option", "1"],
+            },
+        },
+    };
+
+    // Maps bottomPanelSelection to icons and keybinds
+    const bottomPanelMap = {
+        "cloud-shell": {
+            icon: <CommandLineIcon className="w-6 h-6" />,
+            text: "Shell",
+            keybind: {
+                windows: ["Option", "`"],
+                mac: ["Option", "`"],
+                linux: ["Option", "`"],
+            },
+        },
+        networking: {
+            icon: <GlobeAltIcon className="w-6 h-6" />,
+            text: "Networking",
+            keybind: {
+                windows: ["Control", "N"],
+                mac: ["Control", "N"],
+                linux: ["Control", "N"],
+            },
+        },
+        "console-output": {
+            icon: <ComputerDesktopIcon className="w-6 h-6" />,
+            text: "Console",
+            keybind: {
+                windows: ["Option", "R"],
+                mac: ["Option", "R"],
+                linux: ["Option", "R"],
             },
         },
     };
@@ -174,42 +209,24 @@ export default function ToolBar() {
                 </ColumnTooltip>
             ))}
             <div className="flex-grow"></div>
-            <ColumnTooltip
-                text="Shell"
-                keybind={{
-                    windows: ["Option", "8"],
-                    mac: ["Option", "8"],
-                    linux: ["Option", "8"],
-                }}
-            >
-                <button className="p-1 grid place-content-center rounded-lg hover:bg-indigo-300 hover:dark:bg-indigo-700">
-                    <CommandLineIcon className="w-6 h-6" />
-                </button>
-            </ColumnTooltip>
-            <ColumnTooltip
-                text="Networking"
-                keybind={{
-                    windows: ["Option", "9"],
-                    mac: ["Option", "9"],
-                    linux: ["Option", "9"],
-                }}
-            >
-                <button className="p-1 grid place-content-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900">
-                    <GlobeAltIcon className="w-6 h-6" />
-                </button>
-            </ColumnTooltip>
-            <ColumnTooltip
-                text="Console"
-                keybind={{
-                    windows: ["Option", "0"],
-                    mac: ["Option", "0"],
-                    linux: ["Option", "0"],
-                }}
-            >
-                <button className="p-1 grid place-content-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900">
-                    <CodeBracketIcon className="w-6 h-6" />
-                </button>
-            </ColumnTooltip>
+            {Object.keys(bottomPanelMap).map((key, index) => (
+                <ColumnTooltip
+                    key={index}
+                    text={bottomPanelMap[key].text}
+                    keybind={bottomPanelMap[key].keybind}
+                >
+                    <button
+                        onClick={() =>
+                            setBottomPanelSelection(
+                                bottomPanelSelection !== key ? key : ""
+                            )
+                        }
+                        className="p-1 grid place-content-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900"
+                    >
+                        {bottomPanelMap[key].icon}
+                    </button>
+                </ColumnTooltip>
+            ))}
         </div>
     );
 }

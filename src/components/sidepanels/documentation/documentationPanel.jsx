@@ -1,18 +1,16 @@
-import {useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import SidePanelControllerContext from "../../context/sidePanelControllerProvider";
 
 export default function DocumentationPanel() {
+    const {sidePanelSelection} = useContext(SidePanelControllerContext);
     const [dimensions, setDimensions] = useState({x: 384, y: 900});
-    const documentationPanelRef = useRef(null);
 
     useEffect(() => {
         const updateSize = () => {
-            if (
-                documentationPanelRef.current &&
-                documentationPanelRef.current.parentNode
-            ) {
+            if (document.getElementById("side-panel")) {
                 setDimensions({
-                    x: documentationPanelRef.current.parentNode.offsetWidth,
-                    y: documentationPanelRef.current.parentNode.offsetHeight,
+                    x: document.getElementById("side-panel").offsetWidth,
+                    y: document.getElementById("side-panel").offsetHeight,
                 });
             }
         };
@@ -25,11 +23,8 @@ export default function DocumentationPanel() {
             updateSize();
         });
 
-        if (
-            documentationPanelRef.current &&
-            documentationPanelRef.current.parentNode
-        ) {
-            resizeObserver.observe(documentationPanelRef.current.parentNode);
+        if (document.getElementById("side-panel")) {
+            resizeObserver.observe(document.getElementById("side-panel"));
         }
 
         // Cleanup function to disconnect the observer
@@ -38,8 +33,9 @@ export default function DocumentationPanel() {
 
     return (
         <div
-            className="w-full h-full bg-green-950 grid place-content-center"
-            ref={documentationPanelRef}
+            className={`${
+                sidePanelSelection !== "documentation-panel" ? "hidden" : ""
+            } w-full h-full grid place-content-center`}
         >
             <iframe
                 title="Replit Docs"
