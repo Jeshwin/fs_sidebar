@@ -7,8 +7,8 @@ import {
 } from "@heroicons/react/24/outline";
 
 import {useContext, useEffect, useRef, useState} from "react";
-import FileStructureContext from "../context/fileStructureProvider";
-import NewElementContext from "../context/newElementProvider";
+import FileStructureContext from "../../context/fileStructureProvider";
+import NewElementContext from "../../context/newElementProvider";
 
 function fuzzySearchFilename(searchTerm, structure, prefix = "") {
     const regexPattern = searchTerm.split("").join(".*");

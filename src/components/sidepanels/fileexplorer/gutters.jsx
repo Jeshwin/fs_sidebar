@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from "react";
-import FileStructureContext from "./context/fileStructureProvider";
-import NewElementContext from "./context/newElementProvider";
+import FileStructureContext from "../../context/fileStructureProvider";
+import NewElementContext from "../../context/newElementProvider";
 
 export default function GutterRenderer() {
     const {fileStructure, toggleFolder} = useContext(FileStructureContext);

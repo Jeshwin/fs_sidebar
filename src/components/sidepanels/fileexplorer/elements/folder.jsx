@@ -1,15 +1,15 @@
-import FileStructureContext from "../context/fileStructureProvider";
+import FileStructureContext from "../../../context/fileStructureProvider";
 import FileItem from "./file";
-import Modal from "../modal";
+import Modal from "../../../modal";
 import {useState, useContext, useRef, useEffect} from "react";
 import {
     FolderIcon,
     FolderOpenIcon,
     EllipsisVerticalIcon,
 } from "@heroicons/react/24/outline";
-import TooltipPositionContext from "../context/tooltipProvider";
+import TooltipPositionContext from "../../../context/tooltipProvider";
 import NewItem from "./newelement";
-import NewElementContext from "../context/newElementProvider";
+import NewElementContext from "../../../context/newElementProvider";
 
 export default function FolderItem({item, parent, level}) {
     const {toggleFolder, setFolderOpen, addItem, deleteFile, deleteFolder} =

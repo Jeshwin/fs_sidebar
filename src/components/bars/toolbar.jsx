@@ -77,113 +77,102 @@ export default function ToolBar() {
         SidePanelControllerContext
     );
 
+    // Map sidePanelSelection to icons and keybinds
+    const sidePanelMap = {
+        "file-explorer": {
+            icon: <DocumentDuplicateIcon className="w-6 h-6" />,
+            text: "Files",
+            keybind: {
+                windows: ["Option", "1"],
+                mac: ["Option", "1"],
+                linux: ["Option", "1"],
+            },
+        },
+        "testing-panel": {
+            icon: <BeakerIcon className="w-6 h-6" />,
+            text: "Tests",
+            keybind: {
+                windows: ["Option", "1"],
+                mac: ["Option", "1"],
+                linux: ["Option", "1"],
+            },
+        },
+        "git-manager": {
+            icon: <GitIcon className="w-6 h-6" />,
+            text: "Git",
+            keybind: {
+                windows: ["Option", "1"],
+                mac: ["Option", "1"],
+                linux: ["Option", "1"],
+            },
+        },
+        "code-search": {
+            icon: <MagnifyingGlassIcon className="w-6 h-6" />,
+            text: "Search",
+            keybind: {
+                windows: ["Option", "1"],
+                mac: ["Option", "1"],
+                linux: ["Option", "1"],
+            },
+        },
+        "package-manager": {
+            icon: <CubeIcon className="w-6 h-6" />,
+            text: "Packages",
+            keybind: {
+                windows: ["Option", "1"],
+                mac: ["Option", "1"],
+                linux: ["Option", "1"],
+            },
+        },
+        "secrets-manager": {
+            icon: <LockClosedIcon className="w-6 h-6" />,
+            text: "Secrets",
+            keybind: {
+                windows: ["Option", "1"],
+                mac: ["Option", "1"],
+                linux: ["Option", "1"],
+            },
+        },
+        "extensions-manager": {
+            icon: <PuzzlePieceIcon className="w-6 h-6" />,
+            text: "Extensions",
+            keybind: {
+                windows: ["Option", "1"],
+                mac: ["Option", "1"],
+                linux: ["Option", "1"],
+            },
+        },
+        "documentation-explorer": {
+            icon: <BookOpenIcon className="w-6 h-6" />,
+            text: "Documentation",
+            keybind: {
+                windows: ["Option", "1"],
+                mac: ["Option", "1"],
+                linux: ["Option", "1"],
+            },
+        },
+    };
+
     return (
         <div className="h-full px-2 pb-4 bg-slate-50 dark:bg-slate-900 flex flex-col items-center space-y-2">
-            <ColumnTooltip
-                text="File Explorer"
-                keybind={{
-                    windows: ["Option", "1"],
-                    mac: ["Option", "1"],
-                    linux: ["Option", "1"],
-                }}
-            >
-                <button
-                    onClick={() =>
-                        setSidePanelSelection(
-                            sidePanelSelection !== "file-explorer"
-                                ? "file-explorer"
-                                : ""
-                        )
-                    }
-                    className="p-1 grid place-content-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900"
+            {Object.keys(sidePanelMap).map((key, index) => (
+                <ColumnTooltip
+                    key={index}
+                    text={sidePanelMap[key].text}
+                    keybind={sidePanelMap[key].keybind}
                 >
-                    <DocumentDuplicateIcon className="w-6 h-6 " />
-                </button>
-            </ColumnTooltip>
-            <ColumnTooltip
-                text="Tests"
-                keybind={{
-                    windows: ["Option", "2"],
-                    mac: ["Option", "2"],
-                    linux: ["Option", "2"],
-                }}
-            >
-                <button className="p-1 grid place-content-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900">
-                    <BeakerIcon className="w-6 h-6 " />
-                </button>
-            </ColumnTooltip>
-            <ColumnTooltip
-                text="Git"
-                keybind={{
-                    windows: ["Option", "3"],
-                    mac: ["Option", "3"],
-                    linux: ["Option", "3"],
-                }}
-            >
-                <button className="p-1 grid place-content-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900">
-                    <GitIcon className="w-6 h-6" />
-                </button>
-            </ColumnTooltip>
-            <ColumnTooltip
-                text="Code Search"
-                keybind={{
-                    windows: ["Option", "4"],
-                    mac: ["Option", "4"],
-                    linux: ["Option", "4"],
-                }}
-            >
-                <button className="p-1 grid place-content-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900">
-                    <MagnifyingGlassIcon className="w-6 h-6" />
-                </button>
-            </ColumnTooltip>
-            <ColumnTooltip
-                text="Packages"
-                keybind={{
-                    windows: ["Option", "5"],
-                    mac: ["Option", "5"],
-                    linux: ["Option", "5"],
-                }}
-            >
-                <button className="p-1 grid place-content-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900">
-                    <CubeIcon className="w-6 h-6" />
-                </button>
-            </ColumnTooltip>
-            <ColumnTooltip
-                text="Secrets"
-                keybind={{
-                    windows: ["Option", "6"],
-                    mac: ["Option", "6"],
-                    linux: ["Option", "6"],
-                }}
-            >
-                <button className="p-1 grid place-content-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900">
-                    <LockClosedIcon className="w-6 h-6 " />
-                </button>
-            </ColumnTooltip>
-            <ColumnTooltip
-                text="Extensions"
-                keybind={{
-                    windows: ["Option", "7"],
-                    mac: ["Option", "7"],
-                    linux: ["Option", "7"],
-                }}
-            >
-                <button className="p-1 grid place-content-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900">
-                    <PuzzlePieceIcon className="w-6 h-6 " />
-                </button>
-            </ColumnTooltip>
-            <ColumnTooltip
-                text="Documentation"
-                keybind={{
-                    windows: ["Option", "7"],
-                    mac: ["Option", "7"],
-                    linux: ["Option", "7"],
-                }}
-            >
-                <button className="p-1 grid place-content-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900">
-                    <BookOpenIcon className="w-6 h-6 " />
-                </button>
-            </ColumnTooltip>
+                    <button
+                        onClick={() =>
+                            setSidePanelSelection(
+                                sidePanelSelection !== key ? key : ""
+                            )
+                        }
+                        className="p-1 grid place-content-center rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900"
+                    >
+                        {sidePanelMap[key].icon}
+                    </button>
+                </ColumnTooltip>
+            ))}
             <div className="flex-grow"></div>
             <ColumnTooltip
                 text="Shell"

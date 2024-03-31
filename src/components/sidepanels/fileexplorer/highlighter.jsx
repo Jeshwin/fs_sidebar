@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from "react";
-import FileStructureContext from "./context/fileStructureProvider";
+import FileStructureContext from "../../context/fileStructureProvider";
 
 export default function Highlighter({y}) {
     const {fileStructure} = useContext(FileStructureContext);

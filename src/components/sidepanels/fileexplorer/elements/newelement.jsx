@@ -1,8 +1,8 @@
 import {DocumentPlusIcon, FolderPlusIcon} from "@heroicons/react/24/outline";
 import {useContext, useEffect, useRef, useState} from "react";
-import NewElementContext from "../context/newElementProvider";
-import FileStructureContext from "../context/fileStructureProvider";
-import Modal from "../modal";
+import NewElementContext from "../../../context/newElementProvider";
+import FileStructureContext from "../../../context/fileStructureProvider";
+import Modal from "../../../modal";
 
 export default function NewItem() {
     const {

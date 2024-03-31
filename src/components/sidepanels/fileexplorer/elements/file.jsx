@@ -1,10 +1,10 @@
 import {useState, useContext, useRef} from "react";
 
-import FileStructureContext from "../context/fileStructureProvider";
-import TooltipPositionContext from "../context/tooltipProvider";
-import Modal from "../modal";
+import FileStructureContext from "../../../context/fileStructureProvider";
+import TooltipPositionContext from "../../../context/tooltipProvider";
+import Modal from "../../../modal";
 import {DocumentIcon, EllipsisVerticalIcon} from "@heroicons/react/24/outline";
-import NewElementContext from "../context/newElementProvider";
+import NewElementContext from "../../../context/newElementProvider";
 
 export default function FileItem({item, parent, level}) {
     const {addItem, deleteFile, deleteFolder} =
