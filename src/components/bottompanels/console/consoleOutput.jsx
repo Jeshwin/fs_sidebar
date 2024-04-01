@@ -9,7 +9,7 @@ export default function ConsoleOutput() {
                 bottomPanelSelection !== "console-output" ? "hidden" : ""
             } w-full h-full bg-sky-500 bg-opacity-25 grid place-content-center`}
         >
-            <div className="text-6xl text-center">Console</div>
+            <div className="text-center">Console</div>
         </div>
     );
 }

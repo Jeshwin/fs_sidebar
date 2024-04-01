@@ -9,7 +9,7 @@ export default function CodeSearch() {
                 sidePanelSelection !== "code-search" ? "hidden" : ""
             } w-full h-full bg-green-500 bg-opacity-25 grid place-content-center`}
         >
-            <div className="text-6xl text-center">Code Search</div>
+            <div className="text-center">Code Search</div>
         </div>
     );
 }

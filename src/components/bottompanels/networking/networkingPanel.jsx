@@ -9,7 +9,7 @@ export default function NetworkingPanel() {
                 bottomPanelSelection !== "networking" ? "hidden" : ""
             } w-full h-full bg-sky-500 bg-opacity-25 grid place-content-center`}
         >
-            <div className="text-6xl text-center">Networking Panel</div>
+            <div className="text-center">Networking Panel</div>
         </div>
     );
 }

@@ -10,7 +10,7 @@ export default function ExtensionsManager() {
                 sidePanelSelection !== "extensions-manager" ? "hidden" : ""
             } w-full h-full bg-green-500 bg-opacity-25 grid place-content-center`}
         >
-            <div className="text-6xl text-center">Extensions Manager</div>
+            <div className="text-center">Extensions Manager</div>
         </div>
     );
 }

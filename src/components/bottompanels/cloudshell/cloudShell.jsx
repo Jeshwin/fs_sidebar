@@ -9,7 +9,7 @@ export default function CloudShell() {
                 bottomPanelSelection !== "cloud-shell" ? "hidden" : ""
             } w-full h-full bg-sky-500 bg-opacity-25 grid place-content-center`}
         >
-            <div className="text-6xl text-center">Shell</div>
+            <div className="text-center">Shell</div>
         </div>
     );
 }

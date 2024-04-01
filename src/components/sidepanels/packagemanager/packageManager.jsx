@@ -9,7 +9,7 @@ export default function Package() {
                 sidePanelSelection !== "package-manager" ? "hidden" : ""
             } w-full h-full bg-green-500 bg-opacity-25 grid place-content-center`}
         >
-            <div className="text-6xl text-center">Package Manager</div>
+            <div className="text-center">Package Manager</div>
         </div>
     );
 }

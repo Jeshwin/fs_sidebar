@@ -9,7 +9,7 @@ export default function TestingPanel() {
                 sidePanelSelection !== "testing-panel" ? "hidden" : ""
             } w-full h-full bg-green-500 bg-opacity-25 grid place-content-center`}
         >
-            <div className="text-6xl text-center">Testing Panel</div>
+            <div className="text-center">Testing Panel</div>
         </div>
     );
 }
