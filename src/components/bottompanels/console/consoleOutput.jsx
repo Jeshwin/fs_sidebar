@@ -7,7 +7,7 @@ export default function ConsoleOutput() {
         <div
             className={`${
                 bottomPanelSelection !== "console-output" ? "hidden" : ""
-            } w-full h-full bg-sky-950 grid place-content-center`}
+            } w-full h-full bg-sky-500 bg-opacity-25 grid place-content-center`}
         >
             <div className="text-6xl text-center">Console</div>
         </div>

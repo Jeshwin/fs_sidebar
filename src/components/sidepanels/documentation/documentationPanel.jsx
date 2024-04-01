@@ -35,7 +35,7 @@ export default function DocumentationPanel() {
         <div
             className={`${
                 sidePanelSelection !== "documentation-panel" ? "hidden" : ""
-            } w-full h-full grid place-content-center`}
+            } relative w-full h-full grid place-content-center`}
         >
             <iframe
                 title="Replit Docs"

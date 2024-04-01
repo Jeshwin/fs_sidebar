@@ -7,7 +7,7 @@ export default function SecretsManager() {
         <div
             className={`${
                 sidePanelSelection !== "secrets-manager" ? "hidden" : ""
-            } w-full h-full bg-green-950 grid place-content-center`}
+            } w-full h-full bg-green-500 bg-opacity-25 grid place-content-center`}
         >
             <div className="text-6xl text-center">Secrets Manager</div>
         </div>

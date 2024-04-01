@@ -82,6 +82,7 @@ export default function IDE() {
                         sidePanelSelection !== "" ? sidePanelWidth : 0
                     }px`,
                     maxWidth: `90%`,
+                    position: "relative",
                 }}
             >
                 <FileExplorer />
@@ -92,6 +93,10 @@ export default function IDE() {
                 <SecretsManager />
                 <ExtensionsManager />
                 <DocumentationPanel />
+                <div
+                    id="side-panel-interaction-blanket"
+                    className="absolute top-0 left-0 z-10 w-full h-full hidden"
+                ></div>
             </div>
             <div
                 ref={sidePanelHandlebarRef}
@@ -123,7 +128,7 @@ export default function IDE() {
                 </div>
                 <div className="flex-1">
                     <div className="w-full h-full pr-1 pb-1 flex">
-                        <div className="h-full flex-1 rounded-lg bg-slate-300 dark:bg-slate-700">
+                        <div className="h-full flex-1 rounded-lg bg-slate-100 dark:bg-slate-800">
                             <div className="w-full h-full grid place-content-center">
                                 <p className="text-9xl font-bold text-center">
                                     0
@@ -134,7 +139,7 @@ export default function IDE() {
                             <div className="h-6 w-0.5 mx-1 rounded-full bg-slate-950 dark:bg-white"></div>
                         </div>
                         <div className="h-full flex-1 flex flex-col">
-                            <div className="w-full flex-1 rounded-lg bg-slate-300 dark:bg-slate-700">
+                            <div className="w-full flex-1 rounded-lg bg-slate-100 dark:bg-slate-800">
                                 <div className="w-full h-full grid place-content-center">
                                     <p className="text-9xl font-bold text-center">
                                         1
@@ -144,7 +149,7 @@ export default function IDE() {
                             <div className="w-full h-2 rounded-full grid place-content-center select-none cursor-row-resize">
                                 <div className="w-6 h-0.5 my-1 rounded-full bg-slate-950 dark:bg-white"></div>
                             </div>
-                            <div className="w-full flex-1 rounded-lg bg-slate-300 dark:bg-slate-700">
+                            <div className="w-full flex-1 rounded-lg bg-slate-100 dark:bg-slate-800">
                                 <div className="w-full h-full grid place-content-center">
                                     <p className="text-9xl font-bold text-center">
                                         2

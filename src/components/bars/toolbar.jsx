@@ -189,7 +189,7 @@ export default function ToolBar() {
     };
 
     return (
-        <div className="h-full px-2 pb-4 bg-slate-50 dark:bg-slate-900 flex flex-col items-center space-y-2">
+        <div className="h-full px-2 pb-4 flex flex-col items-center space-y-2">
             {Object.keys(sidePanelMap).map((key, index) => (
                 <ColumnTooltip
                     key={index}

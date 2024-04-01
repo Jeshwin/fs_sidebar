@@ -55,7 +55,7 @@ export default function FileExplorer() {
         <div
             className={`${
                 sidePanelSelection !== "file-explorer" ? "hidden" : ""
-            } h-full bg-slate-100 dark:bg-slate-800 dark:text-white overflow-scroll`}
+            } h-full bg-slate-100 dark:bg-slate-800 dark:text-white overflow-y-scroll`}
         >
             {/** Toolbar contains searchbar and buttons to add new file or folder */}
             <FileExplorerToolbar />

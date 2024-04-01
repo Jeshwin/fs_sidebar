@@ -23,7 +23,7 @@ function LogoIcon({className}) {
 
 export default function Navbar() {
     return (
-        <div className="w-screen px-2 py-1 flex items-center space-x-1 bg-slate-50 dark:bg-slate-900 dark:text-white">
+        <div className="w-screen px-2 py-1 flex items-center space-x-1 dark:text-white">
             <button className="p-1 flex items-end rounded-lg hover:bg-indigo-100 hover:dark:bg-indigo-900">
                 <LogoIcon className="w-6 h-6 dark:fill-white" />
                 <p className="pr-1 text-sm font-mono">CodeNest</p>

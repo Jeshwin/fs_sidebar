@@ -16,7 +16,7 @@ export default function App() {
                 <BottomPanelControllerProvider>
                     <NewElementProvider>
                         <TooltipPositionProvider>
-                            <div className="w-screen h-screen bg-slate-50 dark:bg-slate-900 dark:text-white">
+                            <div className="w-screen h-screen bg-slate-50 dark:bg-slate-950 dark:text-white">
                                 <div id="modal-root"></div>
                                 <Navbar />
                                 <ToolTipMenu />
