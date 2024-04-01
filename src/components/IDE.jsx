@@ -12,6 +12,7 @@ import CloudShell from "./bottompanels/cloudshell/cloudShell";
 import NetworkingPanel from "./bottompanels/networking/networkingPanel";
 import ConsoleOutput from "./bottompanels/console/consoleOutput";
 import BottomPanelControllerContext from "./context/bottomPanelControllerProvider";
+import InteractionBlanket from "./interactionBlanket";
 
 export default function IDE() {
     const {sidePanelSelection} = useContext(SidePanelControllerContext);
@@ -30,11 +31,37 @@ export default function IDE() {
     const sidePanelStartDragging = (e) => {
         e.preventDefault(); // Prevent text selection during drag
         setSidePanelIsDragging(true);
+        // Activate the blanket div by changing CSS variables
+        document.documentElement.style.setProperty(
+            "--interactionBlanketPointerEvents",
+            "none"
+        );
+        document.documentElement.style.setProperty(
+            "--interactionBlanketUserSelect",
+            "none"
+        );
+        document.documentElement.style.setProperty(
+            "--interactionBlanketDisplay",
+            "block"
+        );
     };
 
     const bottomPanelStartDragging = (e) => {
         e.preventDefault(); // Prevent text selection during drag
         setBottomPanelIsDragging(true);
+        // Activate the blanket div by changing CSS variables
+        document.documentElement.style.setProperty(
+            "--interactionBlanketPointerEvents",
+            "none"
+        );
+        document.documentElement.style.setProperty(
+            "--interactionBlanketUserSelect",
+            "none"
+        );
+        document.documentElement.style.setProperty(
+            "--interactionBlanketDisplay",
+            "block"
+        );
     };
 
     useEffect(() => {
@@ -62,6 +89,19 @@ export default function IDE() {
         const stopDragging = () => {
             setSidePanelIsDragging(false);
             setBottomPanelIsDragging(false);
+            // Deactivate the blanket div by changing CSS variables
+            document.documentElement.style.setProperty(
+                "--interactionBlanketPointerEvents",
+                "auto"
+            );
+            document.documentElement.style.setProperty(
+                "--interactionBlanketUserSelect",
+                "auto"
+            );
+            document.documentElement.style.setProperty(
+                "--interactionBlanketDisplay",
+                "none"
+            );
         };
 
         document.addEventListener("mousemove", handleDragging);
@@ -83,6 +123,8 @@ export default function IDE() {
                     }px`,
                     maxWidth: `90%`,
                     position: "relative",
+                    pointerEvents: "var(--interactionBlanketPointerEvents)",
+                    userSelect: "var(--interactionBlanketUserSelect)",
                 }}
             >
                 <FileExplorer />
@@ -93,10 +135,7 @@ export default function IDE() {
                 <SecretsManager />
                 <ExtensionsManager />
                 <DocumentationPanel />
-                <div
-                    id="side-panel-interaction-blanket"
-                    className="absolute top-0 left-0 z-10 w-full h-full hidden"
-                ></div>
+                <InteractionBlanket />
             </div>
             <div
                 ref={sidePanelHandlebarRef}
@@ -113,11 +152,13 @@ export default function IDE() {
                             bottomPanelSelection !== "" ? bottomPanelHeight : 0
                         }px`,
                         maxHeight: "90%",
+                        position: "relative",
                     }}
                 >
                     <CloudShell />
                     <NetworkingPanel />
                     <ConsoleOutput />
+                    <InteractionBlanket />
                 </div>
                 <div
                     ref={bottomPanelHandlebarRef}
@@ -128,33 +169,30 @@ export default function IDE() {
                 </div>
                 <div className="flex-1">
                     <div className="w-full h-full pr-1 pb-1 flex">
-                        <div className="h-full flex-1 rounded-lg bg-slate-100 dark:bg-slate-800">
-                            <div className="w-full h-full grid place-content-center">
-                                <p className="text-9xl font-bold text-center">
-                                    0
-                                </p>
-                            </div>
+                        <div className="h-full flex-1 relative rounded-lg bg-slate-100 dark:bg-slate-800">
+                            <p className="w-full h-full grid place-content-center">
+                                0
+                            </p>
+                            <InteractionBlanket />
                         </div>
                         <div className="h-full w-2 rounded-full grid place-content-center select-none cursor-col-resize">
                             <div className="h-6 w-0.5 mx-1 rounded-full bg-slate-950 dark:bg-white"></div>
                         </div>
                         <div className="h-full flex-1 flex flex-col">
-                            <div className="w-full flex-1 rounded-lg bg-slate-100 dark:bg-slate-800">
-                                <div className="w-full h-full grid place-content-center">
-                                    <p className="text-9xl font-bold text-center">
-                                        1
-                                    </p>
-                                </div>
+                            <div className="w-full flex-1 relative rounded-lg bg-slate-100 dark:bg-slate-800">
+                                <p className="w-full h-full grid place-content-center">
+                                    1
+                                </p>
+                                <InteractionBlanket />
                             </div>
                             <div className="w-full h-2 rounded-full grid place-content-center select-none cursor-row-resize">
                                 <div className="w-6 h-0.5 my-1 rounded-full bg-slate-950 dark:bg-white"></div>
                             </div>
-                            <div className="w-full flex-1 rounded-lg bg-slate-100 dark:bg-slate-800">
-                                <div className="w-full h-full grid place-content-center">
-                                    <p className="text-9xl font-bold text-center">
-                                        2
-                                    </p>
-                                </div>
+                            <div className="w-full flex-1 relative rounded-lg bg-slate-100 dark:bg-slate-800">
+                                <p className="w-full h-full grid place-content-center">
+                                    2
+                                </p>
+                                <InteractionBlanket />
                             </div>
                         </div>
                     </div>

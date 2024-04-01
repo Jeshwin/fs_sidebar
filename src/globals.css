@@ -29,6 +29,9 @@
     --X: #8352a3;
     --Y: #8e4f9e;
     --Z: #994d99;
+    --interactionBlanketPointerEvents: auto;
+    --interactionBlanketUserSelect: auto;
+    --interactionBlanketDisplay: none;
 }
 
 #root {
