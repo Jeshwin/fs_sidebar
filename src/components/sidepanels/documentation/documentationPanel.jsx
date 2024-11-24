@@ -1,16 +1,17 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import SidePanelControllerContext from "../../context/sidePanelControllerProvider";
 
 export default function DocumentationPanel() {
     const {sidePanelSelection} = useContext(SidePanelControllerContext);
     const [dimensions, setDimensions] = useState({x: 384, y: 900});
+    const documentationPanelRef = useRef(null);
 
     useEffect(() => {
         const updateSize = () => {
-            if (document.getElementById("side-panel")) {
+            if (documentationPanelRef.current.parentNode) {
                 setDimensions({
-                    x: document.getElementById("side-panel").offsetWidth,
-                    y: document.getElementById("side-panel").offsetHeight,
+                    x: documentationPanelRef.current.parentNode.offsetWidth,
+                    y: documentationPanelRef.current.parentNode.offsetHeight,
                 });
             }
         };
@@ -23,8 +24,8 @@ export default function DocumentationPanel() {
             updateSize();
         });
 
-        if (document.getElementById("side-panel")) {
-            resizeObserver.observe(document.getElementById("side-panel"));
+        if (documentationPanelRef.current.parentNode) {
+            resizeObserver.observe(documentationPanelRef.current.parentNode);
         }
 
         // Cleanup function to disconnect the observer
@@ -33,6 +34,7 @@ export default function DocumentationPanel() {
 
     return (
         <div
+            ref={documentationPanelRef}
             className={`${
                 sidePanelSelection !== "documentation-panel" ? "hidden" : ""
             } relative w-full h-full grid place-content-center`}
